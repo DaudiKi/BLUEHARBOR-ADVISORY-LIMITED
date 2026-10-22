@@ -1,0 +1,62 @@
+{
+  "arrow-right": {
+    "strokeWidth": 2.0,
+    "usage": "Buttons, \"Read profile\", link arrows"
+  },
+  "menu": {
+    "strokeWidth": 1.8,
+    "usage": "Mobile menu button"
+  },
+  "close": {
+    "strokeWidth": 2.0,
+    "usage": "Bio dialog close, mobile menu open state"
+  },
+  "plus": {
+    "strokeWidth": 2.0,
+    "usage": "Service accordion toggle (rotates 45deg when open)"
+  },
+  "globe": {
+    "strokeWidth": 1.7,
+    "usage": "Market: Geographic reach"
+  },
+  "sectors": {
+    "strokeWidth": 1.7,
+    "usage": "Market: Sector exposure"
+  },
+  "mandate": {
+    "strokeWidth": 1.7,
+    "usage": "Market: Mandate approach"
+  },
+  "map-pin": {
+    "strokeWidth": 1.8,
+    "usage": "Experience region tags, Office location"
+  },
+  "info": {
+    "strokeWidth": 1.8,
+    "usage": "Experience disclaimer"
+  },
+  "excellence": {
+    "strokeWidth": 1.8,
+    "usage": "Value: Excellence"
+  },
+  "integrity": {
+    "strokeWidth": 1.8,
+    "usage": "Value: Integrity"
+  },
+  "client-focus": {
+    "strokeWidth": 1.8,
+    "usage": "Value: Client focus"
+  },
+  "mail": {
+    "strokeWidth": 1.8,
+    "usage": "Contact: Email"
+  },
+  "phone": {
+    "strokeWidth": 1.8,
+    "usage": "Contact: Phone"
+  },
+  "arrow-up": {
+    "strokeWidth": 2.0,
+    "usage": "Back-to-top floating button"
+  }
+}

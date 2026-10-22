@@ -1,0 +1,19 @@
+{
+  "name": "BlueHarbor Advisory Limited",
+  "short_name": "BlueHarbor Advisory",
+  "icons": [
+    {
+      "src": "/assets/brand/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/brand/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0B1C2B",
+  "background_color": "#0B1C2B",
+  "display": "browser"
+}

@@ -1,0 +1,33 @@
+/* BlueHarbor design tokens — extracted from prototype/index.html. Single source for colours, type, radii, shadows, motion. */
+:root{
+  --navy-950:#0B1C2B;
+  --navy-900:#0F2537;
+  --navy:#17334D;          /* brand primary */
+  --navy-700:#21486A;
+  --teal:#008C92;          /* brand accent */
+  --teal-600:#007379;
+  --teal-300:#4FC2C0;      /* accent on dark */
+  --teal-50:#E5F3F3;
+  --slate:#576B7B;         /* brand secondary text */
+  --slate-300:#A7B4BF;
+  --mist:#EDF4F6;          /* brand tint */
+  --paper:#F7FAFB;         /* brand off-white */
+  --white:#FFFFFF;
+  --danger:#B42318;        /* form errors only */
+  --ink:#0F1E2B;
+  --line:rgba(23,51,77,.12);
+  --line-dark:rgba(255,255,255,.12);
+
+  --font-sans:"Figtree", "Gill Sans Nova", "Gill Sans MT", system-ui, sans-serif;
+  --font-serif:"Newsreader", Georgia, serif;
+
+  --radius-sm:12px; --radius:14px; --radius-lg:22px; --radius-pill:999px;
+  --shadow-sm:0 1px 2px rgba(15,37,55,.06), 0 1px 1px rgba(15,37,55,.04);
+  --shadow:0 12px 32px -12px rgba(15,37,55,.18), 0 2px 6px rgba(15,37,55,.05);
+  --shadow-lg:0 30px 60px -20px rgba(15,37,55,.28);
+
+  --container:1200px;
+  --gutter:clamp(16px,4vw,40px);
+  --section-y:clamp(72px,10vw,136px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}

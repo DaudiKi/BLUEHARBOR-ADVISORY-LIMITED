@@ -1,0 +1,241 @@
+{
+  "site": {
+    "name": "BlueHarbor Advisory Limited",
+    "shortName": "BlueHarbor Advisory",
+    "tagline": "Navigating growth. Empowering success.",
+    "domain": "blueharboradvisory.com",
+    "description": "BlueHarbor Advisory Limited connects growth-oriented businesses with suitable sources of capital and supports investors through informed transaction decisions across Uganda and East Africa.",
+    "contact": {
+      "email": "info@blueharboradvisory.com",
+      "phones": [
+        "+256 787 676 151",
+        "+256 781 154 940"
+      ],
+      "location": "Ntinda, Kampala, Uganda",
+      "mapQuery": "Ntinda, Kampala, Uganda",
+      "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=Ntinda%2C+Kampala%2C+Uganda"
+    }
+  },
+  "about": {
+    "summary": "BlueHarbor Advisory Limited is an investment advisory and corporate finance firm focused on connecting growth-oriented businesses with suitable sources of capital and supporting investors through informed transaction decisions. Based in Kampala, the firm serves enterprises, investors and development-focused institutions seeking practical, locally grounded advice across Uganda and selected East African markets.",
+    "detail": "Our work combines financial analysis, investment readiness, due diligence and transaction support with an understanding of the operating realities faced by businesses and capital providers. Engagements are scoped to each client's mandate, sector, financing needs and stage of growth."
+  },
+  "audiences": [
+    {
+      "id": "enterprises",
+      "label": "Enterprises",
+      "text": "Growth-stage SMEs and established businesses preparing for investment, expansion or strategic financing.",
+      "servicePillar": "corporate-finance"
+    },
+    {
+      "id": "investors",
+      "label": "Investors",
+      "text": "Private investors, funds and investment teams requiring disciplined sourcing, screening and transaction support.",
+      "servicePillar": "transaction-advisory"
+    },
+    {
+      "id": "institutions",
+      "label": "Institutions",
+      "text": "Development programmes, public-interest organisations and partners supporting enterprise growth and access to finance.",
+      "servicePillar": "development-finance"
+    }
+  ],
+  "marketOrientation": [
+    {
+      "label": "Geographic reach",
+      "text": "Uganda and East Africa, with relevant team experience across the wider region."
+    },
+    {
+      "label": "Sector exposure",
+      "items": [
+        "Agribusiness",
+        "Manufacturing",
+        "Technology-enabled services",
+        "Financial inclusion",
+        "Climate-related enterprises"
+      ]
+    },
+    {
+      "label": "Mandate approach",
+      "text": "Transaction and advisory assignments designed around the client's requirements; no single standard ticket size."
+    }
+  ],
+  "purpose": {
+    "mission": "Facilitate sustainable business growth by improving investment readiness, capital access and transaction execution.",
+    "vision": "Be a trusted regional advisory partner recognised for judgement, integrity and practical results.",
+    "values": [
+      {
+        "name": "Excellence",
+        "text": "Apply rigorous financial and commercial analysis to every assignment."
+      },
+      {
+        "name": "Integrity",
+        "text": "Protect client confidentiality, communicate transparently and manage conflicts responsibly."
+      },
+      {
+        "name": "Client focus",
+        "text": "Tailor advice to the decisions clients need to make and the results they seek."
+      }
+    ]
+  },
+  "servicesIntro": "Three complementary service pillars support enterprises from investment preparation to execution and help investors move from opportunities to informed decisions.",
+  "services": [
+    {
+      "slug": "corporate-finance",
+      "number": "01",
+      "title": "Corporate Finance & Enterprise Advisory",
+      "body": "We help growth-stage businesses translate strategy and operating performance into credible, investable financing propositions. The scope may cover financing plans, business analysis and preparation for lender or investor engagement.",
+      "deliverables": [
+        "Investment readiness reviews",
+        "Financial models and forecasts",
+        "Business valuations",
+        "Investment memoranda and pitch materials",
+        "Capital requirements and financing options",
+        "Investor mapping"
+      ]
+    },
+    {
+      "slug": "transaction-advisory",
+      "number": "02",
+      "title": "Investment & Transaction Advisory",
+      "body": "We support investors and companies in identifying, evaluating, structuring and advancing transactions, drawing on financial, commercial and execution perspectives. Responsibilities are agreed for each mandate; introductions are distinguished from advisory and execution services.",
+      "deliverables": [
+        "Opportunity screening",
+        "Investment appraisal",
+        "Due diligence coordination",
+        "Valuation and return analysis",
+        "Transaction structuring support",
+        "Investment committee materials",
+        "Negotiation and financial-close support",
+        "Portfolio performance reporting"
+      ]
+    },
+    {
+      "slug": "development-finance",
+      "number": "03",
+      "title": "Development Finance & Programme Advisory",
+      "body": "We assist mission-aligned programmes seeking to improve enterprise competitiveness, access to finance and market participation. Support can be provided directly or as part of a consortium, subject to a defined engagement scope.",
+      "deliverables": [
+        "Enterprise sourcing and selection",
+        "Readiness diagnostics",
+        "SME financial literacy",
+        "Technical-assistance design",
+        "Investment facilitation",
+        "Programme reporting and outcomes tracking"
+      ]
+    }
+  ],
+  "approach": {
+    "steps": [
+      {
+        "n": 1,
+        "title": "Define",
+        "text": "Agree objectives, scope, deliverables, timing and responsibilities."
+      },
+      {
+        "n": 2,
+        "title": "Evaluate",
+        "text": "Review business fundamentals, risks, commercial assumptions and funding needs."
+      },
+      {
+        "n": 3,
+        "title": "Prepare",
+        "text": "Develop models, investment materials, transaction options and diligence outputs."
+      },
+      {
+        "n": 4,
+        "title": "Support",
+        "text": "Assist decisions, stakeholder coordination, execution and post-investment reporting."
+      }
+    ],
+    "operatingPrinciple": "We provide advisory and analytical services within the applicable regulatory and professional framework, engaging appropriately qualified specialists where a mandate requires them."
+  },
+  "experience": {
+    "intro": "BlueHarbor draws on the professional backgrounds of its advisory team in private investment, corporate finance, enterprise support, commercial assessment and development programmes.",
+    "disclaimer": "The areas below describe relevant team experience and service capabilities; they are not represented as transactions completed or contracted by BlueHarbor itself.",
+    "areas": [
+      {
+        "title": "Private investment & corporate finance",
+        "region": "East and Southern Africa",
+        "text": "Investment screening, financial modelling, valuation, due diligence, investment committee preparation, structuring support and monitoring of portfolio-company performance."
+      },
+      {
+        "title": "SME growth & capital readiness",
+        "region": "Uganda / East Africa",
+        "text": "Business and financial assessments, preparation of investor materials, forecasting, business continuity planning and support for enterprises approaching capital providers."
+      },
+      {
+        "title": "Development finance & financial inclusion",
+        "region": "Regional programme exposure",
+        "text": "Enterprise selection, financial literacy, due diligence, impact-oriented appraisal, stakeholder engagement and programme advisory support."
+      }
+    ]
+  },
+  "why": [
+    {
+      "title": "Local execution insight, regional perspective",
+      "text": "Our team brings experience with the practical challenges of deploying and managing capital in East African markets, including financial-information gaps, business risk assessment and cross-border stakeholder coordination."
+    },
+    {
+      "title": "Technical depth across the transaction lifecycle",
+      "text": "We connect financial models and valuations with commercial diligence, investment readiness, transaction documentation and ongoing performance review, helping clients move from analysis to decisions."
+    },
+    {
+      "title": "Clear, tailored mandates",
+      "text": "Each assignment begins with an agreed scope, decision framework and deliverables. We distinguish completed analysis from management assumptions, document material risks and use external specialists when their expertise is required."
+    }
+  ],
+  "teamIntro": "A multidisciplinary advisory team combining investment, finance, risk analytics and legal expertise.",
+  "team": [
+    {
+      "slug": "peter-mutumba",
+      "name": "Peter Clinton Mutumba",
+      "role": "Team Lead | Investment & Corporate Finance",
+      "photo": "/team/peter-mutumba.jpg",
+      "bio": "Peter leads the delivery of investment advisory engagements, overseeing financial analysis, valuations, due diligence, transaction structuring and investment recommendations. His experience spans private investments and portfolio management across East and Southern Africa, with sector exposure in agribusiness, manufacturing and technology-enabled enterprises.",
+      "qualifications": "Bachelor of Commerce (Accounting), Makerere University; ACCA studies in progress."
+    },
+    {
+      "slug": "jonah-namanya",
+      "name": "Jonah Namanya",
+      "role": "Investment Analysis & Transaction Support",
+      "photo": "/team/jonah-namanya.jpg",
+      "bio": "Jonah focuses on investment screening, financial analysis, business modelling, due diligence and preparation of investor materials. He previously worked as an Investment Associate at BiD Capital Partners, evaluating growth-stage businesses and supporting investor mapping and transaction documentation.",
+      "qualifications": "BSc Business Statistics, Makerere University; CFA Level II candidate."
+    },
+    {
+      "slug": "gift-kitalikibi",
+      "name": "Gift Zulfa Kitalikibi",
+      "role": "Risk Analytics & Enterprise Support",
+      "photo": "/team/gift-kitalikibi.jpg",
+      "bio": "Gift brings analytical and quantitative expertise to enterprise assessment, risk modelling and data-led decision support. Her experience includes business continuity planning for MSMEs at Barcode Uganda and capital markets-related operations and research at Crested Capital.",
+      "qualifications": "BSc Actuarial Science, Makerere University; actuarial examinations in progress."
+    },
+    {
+      "slug": "emmanuel-opendi",
+      "name": "Emmanuel Opendi",
+      "role": "Legal, Compliance & Stakeholder Advisory",
+      "photo": "/team/emmanuel-opendi.jpg",
+      "bio": "Emmanuel is a legal and investment advisory professional with experience in commercial due diligence, compliance, market assessment and stakeholder engagement. His background includes assignments relating to land acquisition, enterprise advisory and development initiatives in Uganda.",
+      "qualifications": "LLB, Makerere University; Postgraduate Diploma in Legal Practice, Law Development Centre."
+    }
+  ],
+  "cta": {
+    "title": "Let's discuss your mandate",
+    "text": "Speak with the BlueHarbor team about investment readiness, transaction support or advisory requirements."
+  },
+  "headings": {
+    "about": "About BlueHarbor",
+    "whoWeSupport": "Who we support",
+    "marketOrientation": "Market orientation",
+    "purpose": "Purpose & principles",
+    "services": "Our advisory services",
+    "approach": "Our engagement approach",
+    "experience": "Experience & capabilities",
+    "relevantExperience": "Relevant professional experience",
+    "why": "Why work with BlueHarbor?",
+    "team": "Our team",
+    "deliverablesLabel": "Typical deliverables",
+    "operatingPrincipleLabel": "Operating principle"
+  }
+}
