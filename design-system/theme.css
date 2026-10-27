@@ -1,17 +1,17 @@
 /* Tailwind CSS v4 theme — paste into app/globals.css after `@import "tailwindcss";`
    Values mirror design-system/tokens.css exactly. Fonts are wired via next/font CSS variables. */
 @theme {
-  --color-navy-950: #0B1C2B;
-  --color-navy-900: #0F2537;
-  --color-navy: #17334D;
-  --color-navy-700: #21486A;
-  --color-teal: #008C92;
-  --color-teal-600: #007379;
-  --color-teal-300: #4FC2C0;
-  --color-teal-50: #E5F3F3;
-  --color-slate: #576B7B;
-  --color-slate-300: #A7B4BF;
-  --color-mist: #EDF4F6;
+  --color-navy-950: #081B33;
+  --color-navy-900: #0A2342;
+  --color-navy: #0D2E56;
+  --color-navy-700: #15417A;
+  --color-teal: #1FBFB4;
+  --color-teal-600: #189C93;
+  --color-teal-300: #5ED4C9;
+  --color-teal-50: #E3F7F5;
+  --color-slate: #55606E;
+  --color-slate-300: #AEB9C4;
+  --color-mist: #DCE6ED;
   --color-paper: #F7FAFB;
   --color-white: #FFFFFF;
   --color-ink: #0F1E2B;
@@ -27,13 +27,13 @@
   --radius-lg: 22px;
   --radius-pill: 999px;
 
-  --shadow-sm: 0 1px 2px rgba(15,37,55,.06), 0 1px 1px rgba(15,37,55,.04);
-  --shadow-md: 0 12px 32px -12px rgba(15,37,55,.18), 0 2px 6px rgba(15,37,55,.05);
-  --shadow-lg: 0 30px 60px -20px rgba(15,37,55,.28);
+  --shadow-sm: 0 1px 2px rgba(10,35,66,.06), 0 1px 1px rgba(10,35,66,.04);
+  --shadow-md: 0 12px 32px -12px rgba(10,35,66,.18), 0 2px 6px rgba(10,35,66,.05);
+  --shadow-lg: 0 30px 60px -20px rgba(10,35,66,.28);
 
   --ease-brand: cubic-bezier(.2,.7,.2,1);
   --container-site: 1200px;
 }
 /* Alpha tints used in the prototype (keep as-is, they derive from the tokens above):
-   teal  rgba(0,140,146,.14|.18|.35|.6)   teal-300 rgba(79,194,192,.14|.28|.5)
-   navy  rgba(15,37,55,.16)  navy-950 rgba(11,28,43,.6|.82)  white rgba(255,255,255,.03–.92) */
+   teal  rgba(31,191,180,.14|.18|.35|.6)   teal-300 rgba(94,212,201,.14|.28|.5)
+   navy  rgba(10,35,66,.16)  navy-950 rgba(8,27,51,.6|.82)  white rgba(255,255,255,.03–.92) */
