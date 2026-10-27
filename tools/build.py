@@ -38,14 +38,18 @@ NAV_ITEMS_INNER = [
     ("Experience", "/experience.html"), ("Team", "/team.html"),
 ]
 
-LOGO_MARK_SVG = (
-    '<svg class="logo-mark" viewBox="0 0 36 36" aria-hidden="true">'
-    '<rect width="36" height="36" rx="9" style="fill:var(--teal)"/>'
-    '<path d="M7 22.5c3.2-2.6 6.6-2.6 9.8 0s6.6 2.6 9.8 0" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
-    '<path d="M7 27.5c3.2-2.6 6.6-2.6 9.8 0s6.6 2.6 9.8 0" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
-    '<path d="M18 7v11M18 7l5 7h-5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
-    '</svg>'
-)
+def _load_logo_lockup():
+    """The real brand lockup (emblem + 'BLUEHARBOR / ADVISORY' wordmark),
+    supplied by the client's logo kit and inlined so it can be sized/colored
+    purely with CSS (no extra request, crisp at any size)."""
+    path = os.path.join(ROOT, "assets", "brand", "logo-full-on-light.svg")
+    with open(path, encoding="utf-8") as f:
+        svg = f.read()
+    svg = svg.replace("<svg ", '<svg class="logo-lockup" aria-hidden="true" ', 1)
+    return svg
+
+
+LOGO_LOCKUP_SVG = _load_logo_lockup()
 
 ICON = {
     "arrow-right": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
@@ -86,7 +90,7 @@ def head(title, description, path, extra_jsonld=None):
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(description)}">
 <link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="#0B1C2B">
+<meta name="theme-color" content="#F8FBFD">
 <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
@@ -140,8 +144,7 @@ def nav_html(active_path, home: bool):
     return f"""<header class="nav" id="nav" data-solid="{solid}">
   <div class="container nav-inner">
     <a href="{home_href}" class="logo" aria-label="BlueHarbor Advisory — home">
-      {LOGO_MARK_SVG}
-      <span class="logo-word"><b>BLUEHARBOR</b><span>ADVISORY</span></span>
+      {LOGO_LOCKUP_SVG}
     </a>
     <nav aria-label="Primary">
       <ul class="nav-links">
@@ -168,8 +171,7 @@ def footer_html():
     <div class="footer-grid">
       <div>
         <a href="/" class="logo" aria-label="BlueHarbor Advisory">
-          {LOGO_MARK_SVG}
-          <span class="logo-word"><b>BLUEHARBOR</b><span>ADVISORY</span></span>
+          {LOGO_LOCKUP_SVG}
         </a>
         <p class="tagline">{esc(C['site']['tagline'])}</p>
         <p>Investment advisory &amp; corporate finance — Kampala, Uganda.</p>
@@ -871,9 +873,10 @@ def main():
         "icons": [
             {"src": "/assets/brand/favicon-32.png", "sizes": "32x32", "type": "image/png"},
             {"src": "/assets/brand/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"},
+            {"src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png"},
         ],
-        "theme_color": "#0B1C2B",
-        "background_color": "#0B1C2B",
+        "theme_color": "#F8FBFD",
+        "background_color": "#F8FBFD",
         "display": "browser",
     }
     write("site.webmanifest", json.dumps(manifest, indent=2))

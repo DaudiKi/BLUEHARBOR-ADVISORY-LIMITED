@@ -121,8 +121,7 @@ footer_html = f"""<footer class="footer">
     <div class="footer-grid">
       <div>
         <a href="#top" class="logo" aria-label="BlueHarbor Advisory">
-          {B.LOGO_MARK_SVG}
-          <span class="logo-word"><b>BLUEHARBOR</b><span>ADVISORY</span></span>
+          {B.LOGO_LOCKUP_SVG}
         </a>
         <p class="tagline">{B.esc(B.C['site']['tagline'])}</p>
         <p>Investment advisory &amp; corporate finance &mdash; Kampala, Uganda.</p>
@@ -160,8 +159,7 @@ mobile_links = "".join(f'<a href="{href}">{label}</a>' for label, href in nav_it
 nav_html = f"""<header class="nav" id="nav" data-solid="false">
   <div class="container nav-inner">
     <a href="#top" class="logo" aria-label="BlueHarbor Advisory — home">
-      {B.LOGO_MARK_SVG}
-      <span class="logo-word"><b>BLUEHARBOR</b><span>ADVISORY</span></span>
+      {B.LOGO_LOCKUP_SVG}
     </a>
     <nav aria-label="Primary">
       <ul class="nav-links">

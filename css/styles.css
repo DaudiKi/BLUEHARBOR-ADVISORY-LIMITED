@@ -79,11 +79,8 @@ p{margin:0}
 .nav{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(248,251,253,.92);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line);transition:box-shadow .3s}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:76px}
 .nav.scrolled,.nav.solid{box-shadow:var(--shadow-sm)}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--navy)}
-.logo-mark{width:36px;height:36px;flex:none}
-.logo-word{display:flex;flex-direction:column;line-height:1}
-.logo-word b{font-size:17px;letter-spacing:.2em;font-weight:700}
-.logo-word span{font-size:9.5px;letter-spacing:.42em;margin-top:5px;color:var(--teal-600);font-weight:600}
+.logo{display:flex;align-items:center;text-decoration:none;color:var(--navy)}
+.logo-lockup{height:46px;width:auto;display:block;flex:none}
 .nav-links{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
 .nav-links a{display:block;padding:8px 14px;border-radius:var(--radius-pill);color:rgba(0,54,102,.72);text-decoration:none;font-size:15px;font-weight:500;transition:color .2s,background .2s}
 .nav-links a:hover,.nav-links a.active{color:var(--navy);background:rgba(0,54,102,.06)}
@@ -422,9 +419,7 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
   body{font-size:16px}
   .hero h1{font-size:clamp(32px,10.6vw,40px)}
   .h2{font-size:clamp(26px,8.6vw,32px)}
-  .logo-mark{width:32px;height:32px}
-  .logo-word b{font-size:14px;letter-spacing:.14em}
-  .logo-word span{font-size:8.5px;letter-spacing:.3em}
+  .logo-lockup{height:38px}
   .hero-ctas .btn{width:100%}
   .aud-tab{font-size:13px;padding:14px 4px}
   .aud-match{flex-direction:column;gap:10px}

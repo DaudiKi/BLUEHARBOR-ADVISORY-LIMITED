@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><rect width="36" height="36" rx="9" fill="#008C92"/><path d="M7 22.5c3.2-2.6 6.6-2.6 9.8 0s6.6 2.6 9.8 0" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M7 27.5c3.2-2.6 6.6-2.6 9.8 0s6.6 2.6 9.8 0" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M18 7v11M18 7l5 7h-5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g>
+<defs><clipPath id="incolor"><circle cx="100" cy="100" r="89.5"/></clipPath></defs>
+<path d="M39 125A66 66 0 0 1 91 34.6M109 34.6A66 66 0 0 1 161 125" fill="none" stroke="#3E9EA0" stroke-width="5"/>
+<g clip-path="url(#incolor)">
+<path d="M14 127Q48 119.5 80 127Q48 129.5 14 127Z M120 127Q152 119.5 186 127Q152 129.5 120 127Z" fill="#C9A66B"/>
+</g>
+<path d="M100 17V34" stroke="#17334D" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="100" cy="36.5" r="3.2" fill="#17334D"/>
+<path d="M88.5 48C88.5 41 93.5 38.5 100 38.5S111.5 41 111.5 48Z" fill="#17334D"/>
+<rect x="86" y="47.5" width="28" height="4" rx="1" fill="#17334D"/>
+<path d="M89.8 51.5V62.5M110.2 51.5V62.5M96.6 51.5V62.5M103.4 51.5V62.5" stroke="#17334D" stroke-width="2.4"/>
+<rect x="84" y="62" width="32" height="3.6" rx="1" fill="#17334D"/>
+<path d="M82.5 66.2H117.5M84 66.2V73M91.3 66.2V73M100 66.2V73M108.7 66.2V73M116 66.2V73" stroke="#17334D" stroke-width="2.2"/>
+<rect x="80.5" y="73" width="39" height="5" rx="1" fill="#17334D"/>
+<path d="M85 78H100V156H77Z" fill="#17334D"/>
+<path d="M115 78 123 156" stroke="#17334D" stroke-width="2.6" stroke-linecap="round"/>
+<rect x="104.5" y="104" width="5.5" height="12" rx="1" fill="#17334D"/>
+<g clip-path="url(#incolor)">
+<path d="M8 156C46 139 84 139 120 149C146 156 166 152 190 136V200H8Z" fill="#3E9EA0"/>
+<path d="M0 172C40 156 82 157 116 166C146 174 172 170 200 156V200H0Z" fill="#17334D"/>
+<path d="M30 160C64 150 96 152 124 160" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+</g>
+<circle cx="100" cy="100" r="92.5" fill="none" stroke="#17334D" stroke-width="3.6"/>
+</g></svg>

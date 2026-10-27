@@ -151,15 +151,29 @@ form automatically falls back to opening the visitor's email client with a
 pre-filled message addressed to `info@blueharboradvisory.com` — so no
 enquiry is ever silently lost, even before Option A/B/C is wired up.
 
+## 5b. Logo
+
+The nav and footer use the firm's real logo (the lighthouse emblem + "Blue
+Harbor Advisory" wordmark), inlined as SVG so it's crisp at any size with no
+extra request. It's loaded from `assets/brand/logo-full-on-light.svg` by
+`tools/build.py` — to swap in a revised logo, replace that file (and
+`assets/brand/logo-mark.svg`, the icon-only emblem used for JSON-LD) and
+re-run the build.
+
+The delivered logo kit included more variants than the site currently uses
+(a reverse/white-on-dark lockup, a horizontal lockup, light/navy/white
+emblem-only versions). Since every section of the site now shares one light
+background, only the on-light lockup and the plain emblem are wired in; the
+rest are kept in `assets/brand/kit/` in case a future dark section, a
+letterhead, or a social template needs them. `assets/brand/og-image.png`
+(the link-preview image) was composed from the kit's reverse horizontal
+lockup on the brand navy gradient.
+
 ## 6. Open items before this goes live
 
 Carried over from the client's design brief — **do not treat these as
 finished**:
 
-- **Official logo.** `assets/brand/` currently holds a placeholder mark (a
-  teal rounded square with a sail/wave motif) and placeholder favicons/OG
-  image. Replace the files in `assets/brand/` with the firm's real logo
-  (keeping the same filenames) once available.
 - **Exact office address / map pin.** See §4 — the map currently centres on
   Ntinda generally.
 - **Contact form delivery.** See §5 — pick Option A, B or C and configure it.
@@ -215,7 +229,8 @@ team.html, contact.html, privacy.html, terms.html, 404.html   ← generated page
 services/*.html                                                ← generated service detail pages
 css/styles.css                                                  ← shared stylesheet (design tokens + components)
 js/main.js                                                      ← shared behaviour (nav, reveals, form, map, dialog)
-assets/brand/      logo, favicons, OG image
+assets/brand/      the firm's real logo kit — see note below
+assets/brand/kit/  every lockup/variant from the delivered logo kit (bonus, not all wired into the HTML)
 assets/icons/      UI icon set (SVG)
 assets/hero/       hero "harbour chart" illustration (SVG)
 assets/team/       team portraits (JPG)
