@@ -51,8 +51,7 @@ button{font:inherit;cursor:pointer}
 .container{width:100%;max-width:var(--container);margin:0 auto;padding:0 var(--gutter)}
 .section{padding:var(--section-y) 0}
 .section-sm{padding:clamp(48px,7vw,88px) 0}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
-.eyebrow::before{content:"";width:22px;height:1.5px;background:currentColor}
+.eyebrow{display:inline-flex;align-items:center;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
 h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.02em;line-height:1.1;color:var(--navy)}
 .h2{font-size:clamp(32px,4.4vw,52px)}
 .h3{font-size:clamp(21px,2vw,25px);letter-spacing:-.01em;line-height:1.25}
@@ -491,10 +490,6 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
 .split .w > span{display:inline-block;transform:translate3d(0,108%,0);transition:transform 1s var(--ease);transition-delay:calc(var(--i,0) * 55ms)}
 .split.in .w > span{transform:none}
 
-/* Eyebrow rule draws in */
-.js .eyebrow.reveal::before{transform:scaleX(0);transform-origin:left;transition:transform .8s var(--ease) .15s}
-.js .eyebrow.reveal.in::before{transform:none}
-
 /* Rule lines draw across */
 .why-item{position:relative;border-top:0}
 .why-item::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--navy);transform-origin:left;transition:transform 1.2s var(--ease) .1s}
@@ -527,7 +522,7 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .reveal,.split .w > span,.js .mk .chip,.js .deliv li{opacity:1;transform:none}
-  .js .eyebrow.reveal::before,.js .why-item.reveal::before,.js .exp-row.reveal::after{transform:none}
+  .js .why-item.reveal::before,.js .exp-row.reveal::after{transform:none}
   .js .member .member-photo img{transform:none}
   .hero-copy,.hero-art svg{transform:none;opacity:1}
   .mv-item .mw{opacity:1}
