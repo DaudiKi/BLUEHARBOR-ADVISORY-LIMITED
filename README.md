@@ -17,21 +17,25 @@ testimonials or deal counts, per the firm's compliance guidance.
 
 | Route | Description |
 |---|---|
-| `/` | Home — the full one-page design (hero, about, services, approach, market orientation, why BlueHarbor, experience, purpose & principles, team, contact). |
+| `/` | Home — the full one-page design (hero, about, services, approach, market orientation, why BlueHarbor, experience, purpose & principles, contact). |
 | `/about.html` | About, who we support, market orientation, purpose & principles, why BlueHarbor. |
 | `/services.html` | Overview of the three service pillars + engagement approach. |
 | `/services/corporate-finance.html` | Corporate Finance & Enterprise Advisory detail page. |
 | `/services/transaction-advisory.html` | Investment & Transaction Advisory detail page. |
 | `/services/development-finance.html` | Development Finance & Programme Advisory detail page. |
 | `/experience.html` | Experience & capabilities, with the required disclaimer. |
-| `/team.html` | Team grid; each card opens an accessible bio dialog. |
 | `/contact.html` | Contact form, contact details and an embedded Google Map. |
 | `/privacy.html`, `/terms.html` | Legal pages. **Placeholder copy — see §6.** |
 | `/404.html` | Not-found page. |
 
+There is no dedicated team page — the client asked for the team section to
+be removed from the site. The team's data still lives in
+`content/site-content.json` (`team` / `teamIntro`) in case it needs to come
+back later; `tools/build.py` simply doesn't render it anywhere right now.
+
 Every page shares `css/styles.css` and `js/main.js`, so behaviour (mobile
-menu, scroll reveals, the services accordion, audience tabs, the team bio
-dialog, the contact form, back-to-top, reduced-motion support) is
+menu, scroll reveals, the services accordion, audience tabs,
+the contact form, back-to-top, reduced-motion support) is
 identical everywhere.
 
 ## 2. Running it locally
@@ -66,7 +70,7 @@ address, etc.):
 
 To change layout, add a new section, or add a new page, edit
 `tools/build.py` (it has one small function per section — `hero_section`,
-`services_accordion`, `team_section`, etc.) and re-run it the same way.
+`services_accordion`, etc.) and re-run it the same way.
 
 Design tokens (`design-system/tokens.css`, `design-system/theme.css`) and
 the original approved visual prototype (`prototype/` — kept for
@@ -177,9 +181,6 @@ finished**:
 - **Exact office address / map pin.** See §4 — the map currently centres on
   Ntinda generally.
 - **Contact form delivery.** See §5 — pick Option A, B or C and configure it.
-- **Team photos.** Emmanuel Opendi's portrait was supplied as an oval,
-  edge-filled crop; a reshoot on a neutral background is recommended for
-  consistency with the other three.
 - **Privacy notice & terms.** `/privacy.html` and `/terms.html` contain
   clearly-marked placeholder drafts for structure only — they are **not**
   legal advice and have not been reviewed by counsel. Have Ugandan legal
@@ -206,16 +207,15 @@ external key, and even that has a working fallback without one.)
 
 ## 8. Accessibility, SEO & performance notes
 
-- Semantic landmarks, a skip-to-content link, visible focus rings, and a
-  focus-trapping `<dialog>` for team bios (closes on <kbd>Esc</kbd> or
-  backdrop click).
+- Semantic landmarks, a skip-to-content link, and visible focus rings
+  throughout.
 - The services accordion and "who we support" tabs are fully keyboard
   operable (arrow keys move between tabs, per WAI-ARIA tabs pattern).
 - `prefers-reduced-motion` is respected everywhere — all reveal/scroll
   animation is skipped and content shows in its final state immediately.
 - Every page has a unique `<title>`, meta description, canonical URL,
   Open Graph/Twitter card tags, and JSON-LD (`FinancialService` on every
-  page; a `Person`/`ItemList` block on the team page).
+  page).
 - `sitemap.xml` and `robots.txt` are generated alongside the HTML.
 - No layout-shifting web fonts block render longer than necessary; the
   Google Fonts stylesheet is preconnected. Images are served at their
@@ -225,15 +225,15 @@ external key, and even that has a working fallback without one.)
 
 ```
 index.html, about.html, services.html, experience.html,
-team.html, contact.html, privacy.html, terms.html, 404.html   ← generated pages
+contact.html, privacy.html, terms.html, 404.html               ← generated pages
 services/*.html                                                ← generated service detail pages
 css/styles.css                                                  ← shared stylesheet (design tokens + components)
-js/main.js                                                      ← shared behaviour (nav, reveals, form, map, dialog)
+js/main.js                                                      ← shared behaviour (nav, reveals, form, map)
 assets/brand/      the firm's real logo kit — see note below
 assets/brand/kit/  every lockup/variant from the delivered logo kit (bonus, not all wired into the HTML)
 assets/icons/      UI icon set (SVG)
 assets/hero/       hero "harbour chart" illustration (SVG)
-assets/team/       team portraits (JPG)
+assets/team/       team portraits (JPG) — unused since the team section was removed; kept in case it returns
 content/site-content.json                                      ← single source of truth for all copy
 design-system/tokens.css, theme.css                             ← original design tokens from the handoff pack (reference)
 prototype/index.html                                             ← the originally approved visual prototype (reference only)

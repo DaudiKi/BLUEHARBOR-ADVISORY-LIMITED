@@ -6,7 +6,6 @@ page can be opened and clicked through live inside an Artifact preview.
 This is a DEMO build only — not part of the deployed site. It reuses the
 exact same section markup/content as the real build (tools/build.py), but:
   - inlines css/styles.css and js/main.js so nothing depends on external paths
-  - inlines team photos as base64 data URIs (artifacts can't fetch /assets/*)
   - swaps the live Google Maps iframe (blocked inside an artifact sandbox)
     for a static map-style placeholder card
   - the contact form validates and shows success locally instead of
@@ -15,7 +14,6 @@ exact same section markup/content as the real build (tools/build.py), but:
 Run: python3 tools/build_artifact_preview.py
 Output: writes to the path given as sys.argv[1]
 """
-import base64
 import os
 import sys
 
@@ -32,12 +30,6 @@ with open(os.path.join(ROOT, "js", "main.js"), encoding="utf-8") as f:
     JS = f.read()
 
 
-def data_uri_for(path):
-    with open(path, "rb") as f:
-        b = f.read()
-    return "data:image/jpeg;base64," + base64.b64encode(b).decode("ascii")
-
-
 # --- Build body: reuse the exact same section renderers as the real site ---
 sections = [
     B.hero_section(),
@@ -48,15 +40,8 @@ sections = [
     B.why_section(),
     B.experience_section(),
     B.purpose_section(),
-    B.team_section(),
 ]
 body_main = "\n".join(sections)
-
-# Inline team photos as base64 so they render inside the artifact sandbox
-for m in B.C["team"]:
-    local_path = os.path.join(ROOT, "assets", m["photo"].lstrip("/"))
-    uri = data_uri_for(local_path)
-    body_main = body_main.replace(f"/assets{m['photo']}", uri)
 
 # --- Contact section: same copy, but a static map card + local-only form ---
 phones = B.C["site"]["contact"]["phones"]
@@ -135,7 +120,6 @@ footer_html = f"""<footer class="footer">
         <li><a href="#about">About</a></li>
         <li><a href="#approach">Approach</a></li>
         <li><a href="#experience">Experience</a></li>
-        <li><a href="#team">Team</a></li>
       </ul></div>
       <div><h4>Contact</h4><ul>
         <li><a href="mailto:{B.C['site']['contact']['email']}">{B.C['site']['contact']['email']}</a></li>
@@ -152,7 +136,7 @@ footer_html = f"""<footer class="footer">
 
 # --- Nav (home-style, anchor links — identical to the real home page) ---
 nav_items = [("About", "#about"), ("Services", "#services"), ("Approach", "#approach"),
-             ("Experience", "#experience"), ("Team", "#team")]
+             ("Experience", "#experience")]
 nav_links = "\n        ".join(f'<li><a href="{href}">{label}</a></li>' for label, href in nav_items)
 mobile_links = "".join(f'<a href="{href}">{label}</a>' for label, href in nav_items)
 
@@ -233,7 +217,7 @@ PAGE = f"""<meta name="claude:viewport-fit-sides" content="cover">
 {extra_css}
 </style>
 
-<div class="preview-banner">You're viewing a live, in-chat preview of the BlueHarbor Advisory home page &mdash; click the nav, open a team profile, expand a service. <strong>The real multi-page site lives in the repository.</strong></div>
+<div class="preview-banner">You're viewing a live, in-chat preview of the BlueHarbor Advisory home page &mdash; click the nav, expand a service. <strong>The real multi-page site lives in the repository.</strong></div>
 
 <a href="#main" class="skip">Skip to content</a>
 <div class="scroll-progress" aria-hidden="true"></div>

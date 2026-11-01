@@ -31,11 +31,11 @@ FONTS_LINK = (
 
 NAV_ITEMS_HOME = [
     ("About", "#about"), ("Services", "#services"), ("Approach", "#approach"),
-    ("Experience", "#experience"), ("Team", "#team"),
+    ("Experience", "#experience"),
 ]
 NAV_ITEMS_INNER = [
     ("About", "/about.html"), ("Services", "/services.html"), ("Approach", "/services.html#approach"),
-    ("Experience", "/experience.html"), ("Team", "/team.html"),
+    ("Experience", "/experience.html"),
 ]
 
 def _load_logo_lockup():
@@ -185,7 +185,6 @@ def footer_html():
         <li><a href="/about.html">About</a></li>
         <li><a href="/services.html#approach">Approach</a></li>
         <li><a href="/experience.html">Experience</a></li>
-        <li><a href="/team.html">Team</a></li>
       </ul></div>
       <div><h4>Contact</h4><ul>
         <li><a href="mailto:{C['site']['contact']['email']}">{C['site']['contact']['email']}</a></li>
@@ -409,43 +408,6 @@ def purpose_section(id_attr="purpose"):
 </section>"""
 
 
-def team_section(id_attr="team", show_heading=True):
-    members = []
-    for i, m in enumerate(C["team"]):
-        bio = esc(m["bio"]).replace('"', "&quot;")
-        qual = esc(m["qualifications"]).replace('"', "&quot;")
-        name = esc(m["name"]).replace('"', "&quot;")
-        role = esc(m["role"]).replace('"', "&quot;")
-        members.append(f"""<button type="button" class="member reveal" data-d="{i % 4}" aria-haspopup="dialog"
-        data-img="/assets{m['photo']}" data-name="{name}" data-role="{role}" data-bio="{bio}" data-qual="{qual}">
-        <div class="member-photo"><img src="/assets{m['photo']}" alt="Portrait of {esc(m['name'])}" loading="lazy" width="640" height="800"></div>
-        <div class="member-info"><span class="member-role">{esc(m['role'])}</span><h3>{esc(m['name'])}</h3>
-        <span class="member-more">Read profile {ICON['arrow-right']}</span></div>
-      </button>""")
-    head_html = section_head('Our team', 'A multidisciplinary <span class="serif">advisory team.</span>', esc(C['teamIntro'])) if show_heading else ""
-    return f"""<section class="section" id="{id_attr}">
-  <div class="container">
-    {head_html}
-    <div class="team-grid" id="teamGrid">
-      {''.join(members)}
-    </div>
-  </div>
-</section>
-
-<dialog class="bio" id="bio" aria-labelledby="bioName">
-  <button class="bio-close" id="bioClose" aria-label="Close">{ICON['close']}</button>
-  <div class="bio-grid">
-    <img id="bioImg" alt="">
-    <div class="bio-body">
-      <span class="member-role" id="bioRole"></span>
-      <h3 id="bioName"></h3>
-      <p id="bioText"></p>
-      <div class="bio-qual"><b>Qualifications</b><span id="bioQual"></span></div>
-    </div>
-  </div>
-</dialog>"""
-
-
 def map_embed(compact=False):
     q = C["site"]["contact"]["mapQuery"].replace(" ", "+")
     src = f"https://www.google.com/maps?q={q}&z=15&output=embed"
@@ -598,7 +560,6 @@ def build_home():
         why_section(),
         experience_section(),
         purpose_section(),
-        team_section(),
         contact_section(),
     ])
     desc = C["site"]["description"]
@@ -694,32 +655,6 @@ def build_experience():
         C["experience"]["intro"], "/experience.html", body,
     )
 
-
-def build_team():
-    body = "\n".join([
-        page_hero("Our team", 'A multidisciplinary <span class="serif">advisory team.</span>',
-                  esc(C["teamIntro"]), crumbs(("Team", ""))),
-        team_section(id_attr="team-grid-section", show_heading=False),
-        cta_band(),
-    ])
-    person_jsonld = {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": [
-            {
-                "@type": "Person",
-                "name": m["name"],
-                "jobTitle": m["role"],
-                "image": DOMAIN + "/assets" + m["photo"],
-                "worksFor": {"@type": "Organization", "name": C["site"]["name"]},
-            }
-            for m in C["team"]
-        ],
-    }
-    return page(
-        "Our Team — BlueHarbor Advisory",
-        C["teamIntro"], "/team.html", body, extra_jsonld=person_jsonld,
-    )
 
 
 def build_contact():
@@ -854,13 +789,12 @@ def main():
         write(f"services/{svc['slug']}.html", build_service_detail(svc, prev_svc, next_svc))
 
     write("experience.html", build_experience())
-    write("team.html", build_team())
     write("contact.html", build_contact())
     write("privacy.html", build_privacy())
     write("terms.html", build_terms())
     write("404.html", build_404())
 
-    paths = ["/", "/about.html", "/services.html", "/experience.html", "/team.html", "/contact.html",
+    paths = ["/", "/about.html", "/services.html", "/experience.html", "/contact.html",
              "/privacy.html", "/terms.html"] + [f"/services/{s['slug']}.html" for s in services]
     write("sitemap.xml", build_sitemap(paths))
 

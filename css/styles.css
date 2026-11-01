@@ -272,37 +272,6 @@ p{margin:0}
 .value p{color:var(--slate);font-size:16px}
 @media (max-width:900px){.purpose-grid{grid-template-columns:1fr}}
 
-/* ================= TEAM ================= */
-.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.member{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;transition:transform .35s var(--ease),box-shadow .35s;text-align:left;padding:0;color:inherit}
-.member:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.member-photo{aspect-ratio:4/5;overflow:hidden;background:var(--mist);position:relative}
-.member-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .6s var(--ease)}
-.member:hover .member-photo img{transform:scale(1.04)}
-.member-photo::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(transparent,rgba(0,47,92,.16))}
-.member-info{padding:20px 22px 22px;display:flex;flex-direction:column;gap:6px;flex:1}
-.member-info h3{font-size:19px;letter-spacing:-.01em}
-.member-role{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:600;line-height:1.45}
-.member-more{margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:var(--navy);display:inline-flex;align-items:center;gap:6px}
-.member-more svg{width:15px;height:15px;transition:transform .25s var(--ease)}
-.member:hover .member-more svg{transform:translateX(3px)}
-@media (max-width:1024px){.team-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.team-grid{grid-template-columns:1fr}}
-
-/* Bio dialog */
-dialog.bio{border:0;padding:0;border-radius:var(--radius-lg);max-width:860px;width:calc(100% - 32px);box-shadow:var(--shadow-lg);color:var(--ink)}
-dialog.bio::backdrop{background:rgba(0,38,77,.6);backdrop-filter:blur(4px)}
-.bio-grid{display:grid;grid-template-columns:300px 1fr}
-.bio-grid img{width:100%;height:100%;object-fit:cover;object-position:center 20%;min-height:360px}
-.bio-body{padding:clamp(24px,4vw,44px);display:grid;gap:14px;align-content:start}
-.bio-body h3{font-size:28px}
-.bio-body p{color:var(--slate)}
-.bio-qual{margin-top:8px;padding-top:18px;border-top:1px solid var(--line);font-size:15px}
-.bio-qual b{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
-.bio-close{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:var(--radius-pill);border:0;background:rgba(255,255,255,.92);display:grid;place-items:center;box-shadow:var(--shadow-sm)}
-.bio-close svg{width:18px;height:18px}
-@media (max-width:700px){.bio-grid{grid-template-columns:1fr}.bio-grid img{min-height:0;aspect-ratio:4/3}}
-
 /* ================= CONTACT ================= */
 .contact{background:var(--paper);color:var(--ink);position:relative;overflow:hidden}
 .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,6vw,80px);position:relative}
@@ -380,14 +349,12 @@ main{overflow-x:hidden}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.nav{background:var(--paper)}}
 @media (max-width:980px){.mobile-menu{max-height:calc(100dvh - 76px);overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(28px + env(safe-area-inset-bottom))}}
 body:has(dialog[open]),body.menu-open{overflow:hidden}
-dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain}
 
 /* Touch devices: no sticky hover lifts; tactile press instead */
 @media (hover:none){
-  .mk:hover,.member:hover{transform:none;box-shadow:none}
-  .member:hover .member-photo img{transform:none}
-  .btn:hover svg,.link-arrow:hover svg,.member:hover .member-more svg{transform:none}
-  .btn:active,.member:active,.svc-head:active .svc-toggle{transform:scale(.97)}
+  .mk:hover{transform:none;box-shadow:none}
+  .btn:hover svg,.link-arrow:hover svg{transform:none}
+  .btn:active,.svc-head:active .svc-toggle{transform:scale(.97)}
 }
 
 /* Large desktops / TVs */
@@ -429,7 +396,6 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
   .form{padding:20px}
   .value{grid-template-columns:1fr;gap:12px;padding:20px}
   .deliv li,.chip{font-size:13px}
-  .bio-body h3{font-size:24px}
 }
 @media (max-width:300px){.aud-tab{font-size:12px}.eyebrow{letter-spacing:.1em}}
 
@@ -442,13 +408,6 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
   .hero-art{opacity:.3}
   .nav-inner{height:64px}
   .mobile-menu{inset:64px 0 auto 0;max-height:calc(100dvh - 64px)}
-  .bio-grid{grid-template-columns:220px 1fr}
-  .bio-grid img{min-height:0;height:100%}
-}
-
-/* Bio dialog as bottom sheet on phones */
-@media (max-width:700px) and (orientation:portrait){
-  dialog.bio{width:100%;max-width:100%;margin:auto 0 0;max-height:92dvh;border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding-bottom:env(safe-area-inset-bottom)}
 }
 
 /* Dual-screen foldables (spanning across the hinge) */
@@ -460,7 +419,6 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
 }
 @media (vertical-viewport-segments:2){
   .hero{min-height:env(viewport-segment-height 0 0)}
-  dialog.bio{margin-top:env(viewport-segment-top 0 1)}
 }
 
 /* ================= MOTION ================= */
@@ -497,11 +455,6 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
 .js .mk .chip,.js .deliv li{opacity:0;transform:translate3d(0,8px,0);transition:opacity .5s var(--ease),transform .5s var(--ease),background .2s;transition-delay:calc(.25s + var(--i,0) * 45ms)}
 .js .mk.in .chip,.js .svc.in[data-open="true"] .deliv li{opacity:1;transform:none}
 
-/* Team photos settle from a slight zoom */
-.js .member .member-photo img{transform:scale(1.14)}
-.js .member.in .member-photo img{transform:scale(1);transition:transform 1.6s var(--ease)}
-@media (hover:hover){.js .member.in:hover .member-photo img{transform:scale(1.04);transition-duration:.6s}}
-
 /* Hero parallax (driven by --hp, 0→1 while the hero scrolls away) */
 .hero-copy{transform:translate3d(0,calc(var(--hp,0) * 70px),0);opacity:calc(1 - var(--hp,0) * .8);will-change:transform,opacity}
 .hero-art svg{transform:translate3d(0,calc(var(--hp,0) * -60px),0) rotate(calc(var(--hp,0) * 8deg)) scale(calc(1 + var(--hp,0) * .08));transform-origin:50% 50%}
@@ -518,7 +471,6 @@ dialog.bio{max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:cont
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .reveal,.split .w > span,.js .mk .chip,.js .deliv li{opacity:1;transform:none}
   .js .why-item.reveal::before,.js .exp-row.reveal::after{transform:none}
-  .js .member .member-photo img{transform:none}
   .hero-copy,.hero-art svg{transform:none;opacity:1}
   .mv-item .mw{opacity:1}
   .contour.draw{stroke-dashoffset:0}

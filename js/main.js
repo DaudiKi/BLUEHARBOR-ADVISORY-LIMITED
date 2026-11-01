@@ -37,7 +37,7 @@
 
   /* active link: highlight by current in-view section (home) or current page (inner pages) */
   const links = $$('.nav-links a, .mobile-menu a');
-  const sectionIds = ['about', 'services', 'approach', 'experience', 'team'];
+  const sectionIds = ['about', 'services', 'approach', 'experience'];
   const sectionsPresent = sectionIds.filter(id => document.getElementById(id));
   if (sectionsPresent.length) {
     const spy = new IntersectionObserver(es => es.forEach(e => {
@@ -138,22 +138,6 @@
   frame();
   if (reduce && steps) { stepItems.forEach(s => s.classList.add('lit')); steps.style.setProperty('--p', '100%'); }
   if (toTop) toTop.addEventListener('click', () => { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); $('.logo')?.focus({ preventScroll: true }); });
-
-  /* --- Team bio dialog (data-driven from markup data-* attributes) --- */
-  const dlg = $('#bio');
-  if (dlg) {
-    $$('.member').forEach(b => {
-      b.addEventListener('click', () => {
-        const d = b.dataset;
-        $('#bioImg').src = d.img; $('#bioImg').alt = 'Portrait of ' + d.name;
-        $('#bioName').textContent = d.name; $('#bioRole').textContent = d.role;
-        $('#bioText').textContent = d.bio; $('#bioQual').textContent = d.qual;
-        dlg.showModal();
-      });
-    });
-    $('#bioClose')?.addEventListener('click', () => dlg.close());
-    dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
-  }
 
   /* --- Contact form ---
      Submits to Web3Forms (https://web3forms.com) when an access key is
