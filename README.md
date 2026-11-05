@@ -172,21 +172,23 @@ enquiry is ever silently lost, even before Option A/B/C is wired up.
 
 ## 5b. Logo
 
-The nav and footer use the firm's real logo (the lighthouse emblem + "Blue
-Harbor Advisory" wordmark), inlined as SVG so it's crisp at any size with no
-extra request. It's loaded from `assets/brand/logo-full-on-light.svg` by
+The nav and footer use the BlueHarbor Advisory Design System's logo (the
+wave-and-sun emblem + "Blueharbor Advisory" wordmark, navy `#0A2363` +
+gold `#D6AA56`), inlined as SVG so it's crisp at any size with no extra
+request. It's loaded from `assets/brand/logo-full-on-light.svg` by
 `tools/build.py` — to swap in a revised logo, replace that file (and
 `assets/brand/logo-mark.svg`, the icon-only emblem used for JSON-LD) and
 re-run the build.
 
 The delivered logo kit included more variants than the site currently uses
-(a reverse/white-on-dark lockup, a horizontal lockup, light/navy/white
-emblem-only versions). Since every section of the site now shares one light
-background, only the on-light lockup and the plain emblem are wired in; the
-rest are kept in `assets/brand/kit/` in case a future dark section, a
-letterhead, or a social template needs them. `assets/brand/og-image.png`
-(the link-preview image) was composed from the kit's reverse horizontal
-lockup on the brand navy gradient.
+(a reverse/white-on-dark lockup, navy-only and white-only emblem/wordmark
+versions). Since every section of the site shares one light background,
+only the on-light lockup and the plain emblem are wired in; the rest are
+kept in `assets/brand/kit/` in case a future dark section, a letterhead, or
+a social template needs them (it also holds the kit's raw PNG exports and
+a square `social-avatar.png` for social profile use).
+`assets/brand/og-image.png` (the link-preview image) is composed from the
+kit's reverse lockup (`logo-full-on-dark.svg`) on the brand navy gradient.
 
 ## 6. Open items before this goes live
 
