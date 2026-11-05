@@ -12,16 +12,21 @@ The copy and contact details are taken from the firm's own company profile
 stats, client logos, testimonials or deal counts, per the firm's compliance
 guidance.
 
-**Visual design**: the site is built on the **BlueHarbor Advisory Design
-System** (a separate Claude Design System artifact, maintained by the
-client) — its `tokens.json` (navy `#0A2363` / gold `#D6AA56`&ndash;`#E2C17D`,
-Newsreader + Cabin type) and `components/bundle.css` (buttons, cards,
-tags, the 32-icon set, all pill-shaped controls) are what `css/styles.css`
-and `tools/build.py` implement. If the design system changes, re-read it
-and update those two files to match — don't hand-tune colors or type
-independently of it. `design-system/tokens.css` and `design-system/theme.css`
-in this repo are an **older, superseded** reference (a previous navy/teal
-direction) kept only for history; ignore them for anything visual.
+**Visual design**: the site keeps its original layout, components and
+typography (Figtree + Newsreader) — only the **color palette and logo**
+have been updated to match the **BlueHarbor Advisory Design System** (a
+separate Claude Design System artifact, maintained by the client): navy
+`#0A2363` as the primary brand color and gold `#D6AA56`&ndash;`#E2C17D` as
+the accent, replacing the earlier navy/turquoise palette. These live as
+CSS custom properties at the top of `css/styles.css` (`--navy`, `--teal`,
+etc. — the variable names are historical and now hold the new hex values)
+and in the recolored SVGs under `assets/brand/` and `assets/hero/`. The
+design system's own component framework (`bundle.css`), spacing/radius
+scale and Cabin/Newsreader type pairing were **not** adopted — this site's
+existing accordion, tabs and card markup were kept as-is.
+`design-system/tokens.css` and `design-system/theme.css` in this repo are
+an **older, superseded** reference (an earlier navy/teal direction) kept
+only for history; ignore them for anything visual.
 
 ## 1. What's in the site
 
