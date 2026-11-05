@@ -91,6 +91,7 @@ def head(title, description, path, extra_jsonld=None):
 <meta name="description" content="{esc(description)}">
 <link rel="canonical" href="{canonical}">
 <meta name="theme-color" content="#F8F7F3">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
