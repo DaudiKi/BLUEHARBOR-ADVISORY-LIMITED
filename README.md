@@ -7,11 +7,21 @@ plain HTML file, styled by one shared stylesheet and one shared script, so
 it runs anywhere — a laptop, GitHub Pages, Netlify, Vercel, or any ordinary
 web host — with no build step, server, framework or install required.
 
-The design, copy and assets are taken from the approved design handoff
-pack supplied by the client (prototype, design tokens, icons, brand assets,
-team photos and `content/site-content.json`, the firm's own company
-profile). Nothing on the site has been invented: no stats, client logos,
-testimonials or deal counts, per the firm's compliance guidance.
+The copy and contact details are taken from the firm's own company profile
+(`content/site-content.json`). Nothing on the site has been invented: no
+stats, client logos, testimonials or deal counts, per the firm's compliance
+guidance.
+
+**Visual design**: the site is built on the **BlueHarbor Advisory Design
+System** (a separate Claude Design System artifact, maintained by the
+client) — its `tokens.json` (navy `#0A2363` / gold `#D6AA56`&ndash;`#E2C17D`,
+Newsreader + Cabin type) and `components/bundle.css` (buttons, cards,
+tags, the 32-icon set, all pill-shaped controls) are what `css/styles.css`
+and `tools/build.py` implement. If the design system changes, re-read it
+and update those two files to match — don't hand-tune colors or type
+independently of it. `design-system/tokens.css` and `design-system/theme.css`
+in this repo are an **older, superseded** reference (a previous navy/teal
+direction) kept only for history; ignore them for anything visual.
 
 ## 1. What's in the site
 

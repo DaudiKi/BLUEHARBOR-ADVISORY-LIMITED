@@ -2,6 +2,8 @@
 """
 Static-site generator for the BlueHarbor Advisory Limited website.
 
+Built on the BlueHarbor Advisory Design System (tokens.json +
+components/bundle.css, read from the client's design-system Artifact).
 Reads copy from content/site-content.json (the single source of truth —
 do not hand-edit the generated *.html files, edit this builder or the
 JSON and re-run `python3 tools/build.py`) and emits a complete, dependency
@@ -13,7 +15,6 @@ Usage:
 """
 import json
 import os
-import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT_PATH = os.path.join(ROOT, "content", "site-content.json")
@@ -25,92 +26,61 @@ DOMAIN = "https://" + C["site"]["domain"]
 FONTS_LINK = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-    '<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:'
-    'ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">'
+    '<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Newsreader:'
+    'ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">'
 )
 
 NAV_ITEMS_HOME = [
     ("About", "#about"), ("Services", "#services"), ("Approach", "#approach"),
-    ("Experience", "#experience"),
+    ("Experience", "#experience"), ("Contact", "#contact"),
 ]
 NAV_ITEMS_INNER = [
     ("About", "/about.html"), ("Services", "/services.html"), ("Approach", "/services.html#approach"),
-    ("Experience", "/experience.html"),
+    ("Experience", "/experience.html"), ("Contact", "/contact.html"),
 ]
 
-def _load_logo_lockup():
-    """The real brand lockup (emblem + 'BLUEHARBOR / ADVISORY' wordmark),
-    supplied by the client's logo kit and inlined so it can be sized/colored
-    purely with CSS (no extra request, crisp at any size)."""
-    path = os.path.join(ROOT, "assets", "brand", "logo-full-on-light.svg")
-    with open(path, encoding="utf-8") as f:
-        svg = f.read()
-    svg = svg.replace("<svg ", '<svg class="logo-lockup" aria-hidden="true" ', 1)
-    return svg
 
-
-LOGO_LOCKUP_SVG = _load_logo_lockup()
-
-ICON = {
-    "arrow-right": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
-    "plus": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
-    "mail": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
-    "phone": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
-    "map-pin": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
-    "map-pin-thin": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
-    "info": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>',
-    "globe": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21M12 3C9.5 5.6 8.2 8.6 8.2 12s1.3 6.4 3.8 9"/></svg>',
-    "sectors": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l5 3V10l5 3V6l4 2v13"/></svg>',
-    "mandate": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 3H8l1-3zM6 7h12v13H6z"/><path d="M9 12h6M9 16h4"/></svg>',
-    "excellence": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>',
-    "integrity": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',
-    "client-focus": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>',
-    "close": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
-    "menu": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
-    "arrow-up": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
-}
+def _load_logo(path):
+    with open(os.path.join(ROOT, "assets", "brand", path), encoding="utf-8") as f:
+        return f.read()
 
 
 def esc(s: str) -> str:
     return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def head(title, description, path, extra_jsonld=None):
-    canonical = DOMAIN + path
-    og_image = DOMAIN + "/assets/brand/og-image.png"
-    jsonld_blocks = [ORG_JSONLD]
-    if extra_jsonld:
-        jsonld_blocks.append(extra_jsonld)
-    jsonld = "\n".join(
-        f'<script type="application/ld+json">{json.dumps(b, ensure_ascii=False)}</script>' for b in jsonld_blocks
-    )
-    return f"""<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="format-detection" content="telephone=no">
-<title>{esc(title)}</title>
-<meta name="description" content="{esc(description)}">
-<link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="#F8FBFD">
-<link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
-<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
-<link rel="manifest" href="/site.webmanifest">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="{esc(C['site']['name'])}">
-<meta property="og:title" content="{esc(title)}">
-<meta property="og:description" content="{esc(description)}">
-<meta property="og:url" content="{canonical}">
-<meta property="og:image" content="{og_image}">
-<meta property="og:locale" content="en_UG">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{esc(title)}">
-<meta name="twitter:description" content="{esc(description)}">
-<meta name="twitter:image" content="{og_image}">
-{FONTS_LINK}
-<link rel="stylesheet" href="/css/styles.css">
-{jsonld}
-<script>document.documentElement.classList.add('js-early')</script>"""
+def icon(name, extra="", size=""):
+    cls = f"bh-i bh-i--{name}"
+    if size:
+        cls += f" bh-i--{size}"
+    if extra:
+        cls += f" {extra}"
+    return f'<span class="{cls}" aria-hidden="true"></span>'
 
+
+def bh_logo(href, height=56, aria_label=None):
+    """Full-colour BlueHarbor logo (SVG), for light grounds (surface/surface-tint/surface-wash)."""
+    label = f' aria-label="{esc(aria_label)}"' if aria_label else ""
+    datauri = _logo_data_uri(LOGO_LIGHT_SVG)
+    return (f'<a class="bh-logo" href="{href}" style="--bh-logo-h:{height}px"{label}>'
+            f'<img src="{datauri}" alt="BlueHarbor Advisory" height="{height}"></a>')
+
+
+def bh_logo_reverse(href, height=56, aria_label=None):
+    """Reverse (white-on-navy) logo, for brand/surface-inverse grounds."""
+    label = f' aria-label="{esc(aria_label)}"' if aria_label else ""
+    datauri = _logo_data_uri(LOGO_DARK_SVG)
+    return (f'<a class="bh-logo" href="{href}" style="--bh-logo-h:{height}px"{label}>'
+            f'<img src="{datauri}" alt="BlueHarbor Advisory" height="{height}"></a>')
+
+
+def _logo_data_uri(svg):
+    import base64
+    return "data:image/svg+xml;base64," + base64.b64encode(svg.encode("utf-8")).decode("ascii")
+
+
+LOGO_LIGHT_SVG = _load_logo("logo-full-on-light.svg")
+LOGO_DARK_SVG = _load_logo("logo-full-on-dark.svg")
 
 ORG_JSONLD = {
     "@context": "https://schema.org",
@@ -132,93 +102,126 @@ ORG_JSONLD = {
 }
 
 
-def nav_html(active_path, home: bool):
-    items = NAV_ITEMS_HOME if home else NAV_ITEMS_INNER
-    links = "\n        ".join(
-        f'<li><a href="{href}"{" class=\"active\"" if (not home and href == active_path) else ""}>{label}</a></li>'
-        for label, href in items
+def head(title, description, path, extra_jsonld=None):
+    canonical = DOMAIN + path
+    og_image = DOMAIN + "/assets/brand/og-image.png"
+    jsonld_blocks = [ORG_JSONLD]
+    if extra_jsonld:
+        jsonld_blocks.append(extra_jsonld)
+    jsonld = "\n".join(
+        f'<script type="application/ld+json">{json.dumps(b, ensure_ascii=False)}</script>' for b in jsonld_blocks
     )
-    mobile_links = "".join(f'<a href="{href}">{label}</a>' for label, href in items)
+    return f"""<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>{esc(title)}</title>
+<meta name="description" content="{esc(description)}">
+<link rel="canonical" href="{canonical}">
+<meta name="theme-color" content="#0a2363">
+<link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{esc(C['site']['name'])}">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(description)}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{og_image}">
+<meta property="og:locale" content="en_UG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(description)}">
+<meta name="twitter:image" content="{og_image}">
+{FONTS_LINK}
+<link rel="stylesheet" href="/css/styles.css">
+{jsonld}"""
+
+
+# ---------------------------------------------------------------------------
+# Header / Footer
+# ---------------------------------------------------------------------------
+
+def header_html(active_path, home: bool):
+    items = NAV_ITEMS_HOME if home else NAV_ITEMS_INNER
+    def link_attrs(href):
+        return ' aria-current="page"' if (not home and href == active_path) else ""
+    links = "".join(f'<a href="{href}"{link_attrs(href)}>{label}</a>' for label, href in items)
+    mobile_links = "".join(f'<a href="{href}"{link_attrs(href)}>{label}</a>' for label, href in items)
     home_href = "#top" if home else "/"
-    solid = "false" if home else "true"
-    return f"""<header class="nav" id="nav" data-solid="{solid}">
-  <div class="container nav-inner">
-    <a href="{home_href}" class="logo" aria-label="BlueHarbor Advisory — home">
-      {LOGO_LOCKUP_SVG}
-    </a>
-    <nav aria-label="Primary">
-      <ul class="nav-links">
-        {links}
-      </ul>
-    </nav>
-    <a href="{'#contact' if home else '/contact.html'}" class="btn btn-primary nav-cta">Discuss a mandate</a>
-    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
-      {ICON['menu']}
-    </button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    {mobile_links}
-    <a href="{'#contact' if home else '/contact.html'}" class="btn btn-primary">Discuss a mandate</a>
-  </div>
+    contact_href = "#contact" if home else "/contact.html"
+    phones = C["site"]["contact"]["phones"]
+    tel0 = phones[0].replace(" ", "")
+    return f"""<header>
+<div class="bh-topbar bh-on-inverse small"><div class="bh-container">
+<div class="bh-topbar__group"><span class="bh-topbar__item">{icon('map-pin')}{esc(C['site']['contact']['location'])}</span><span class="bh-topbar__item bh-topbar__hide-sm">{icon('clock')}Mon&ndash;Fri</span></div>
+<div class="bh-topbar__group"><a class="bh-topbar__item" href="mailto:{C['site']['contact']['email']}">{icon('mail')}{esc(C['site']['contact']['email'])}</a><a class="bh-topbar__item bh-topbar__hide-sm" href="tel:{tel0}">{icon('phone')}{phones[0]}</a></div>
+</div></div>
+<nav class="bh-nav" aria-label="Main" id="nav"><div class="bh-container">
+{bh_logo(home_href, 56, aria_label='BlueHarbor Advisory — home')}
+<div class="bh-nav__links" id="navLinks">{links}</div>
+<div class="bh-nav__end">
+<a class="bh-iconbtn bh-iconbtn--ghost bh-nav__phone" href="tel:{tel0}" aria-label="Call {phones[0]}">{icon('phone')}</a>
+<a class="bh-btn bh-btn--primary bh-btn--chip bh-btn--sm" href="{contact_href}">Discuss your mandate<span class="bh-btn__chip">{icon('arrow-right')}</span></a>
+<button class="bh-iconbtn bh-iconbtn--sm bh-nav__menu" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">{icon('menu')}</button>
+</div>
+</div></nav>
+<div class="bh-mobile-menu" id="mobileMenu">
+{mobile_links}
+<a class="bh-btn bh-btn--primary bh-btn--block" href="{contact_href}">Discuss your mandate<span class="bh-i bh-i--arrow-right" aria-hidden="true"></span></a>
+</div>
 </header>"""
 
 
-def footer_html():
+def footer_html(home: bool):
     phones = C["site"]["contact"]["phones"]
-    phones_html = "".join(f'<li><a href="tel:{p.replace(" ", "")}">{p}</a></li>' for p in phones)
-    return f"""<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <a href="/" class="logo" aria-label="BlueHarbor Advisory">
-          {LOGO_LOCKUP_SVG}
-        </a>
-        <p class="tagline">{esc(C['site']['tagline'])}</p>
-        <p>Investment advisory &amp; corporate finance — Kampala, Uganda.</p>
-      </div>
-      <div><h4>Services</h4><ul>
-        <li><a href="/services/corporate-finance.html">Corporate Finance &amp; Enterprise</a></li>
-        <li><a href="/services/transaction-advisory.html">Investment &amp; Transaction</a></li>
-        <li><a href="/services/development-finance.html">Development Finance &amp; Programmes</a></li>
-      </ul></div>
-      <div><h4>Firm</h4><ul>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/services.html#approach">Approach</a></li>
-        <li><a href="/experience.html">Experience</a></li>
-      </ul></div>
-      <div><h4>Contact</h4><ul>
-        <li><a href="mailto:{C['site']['contact']['email']}">{C['site']['contact']['email']}</a></li>
-        {phones_html}
-        <li>{esc(C['site']['contact']['location'])}</li>
-      </ul></div>
-    </div>
-    <div class="footer-bottom">
-      <p>© <span id="yr"></span> {esc(C['site']['name'])}. BlueHarbor provides advisory and analytical services within the applicable regulatory and professional framework. Nothing on this website constitutes an offer of securities or investment advice to any person.</p>
-      <p><a href="/privacy.html">Privacy notice</a> &nbsp;·&nbsp; <a href="/terms.html">Terms of use</a></p>
-    </div>
-  </div>
-</footer>"""
+    phones_html = "<br>".join(phones)
+    contact_href = "#contact" if home else "/contact.html"
+    home_href = "#top" if home else "/"
+    return f"""<footer class="bh-footer bh-on-inverse"><div class="bh-container">
+<div class="bh-footer__top">
+<div style="display:grid;gap:16px">{bh_logo_reverse('/', 56, aria_label='BlueHarbor Advisory')}<p class="small bh-footer__blurb">{esc(C['site']['description'])}</p></div>
+<a class="bh-btn bh-btn--inverse bh-btn--chip" href="{contact_href}">Discuss your mandate<span class="bh-btn__chip">{icon('arrow-right')}</span></a>
+</div>
+<div class="bh-footer__grid small">
+<div><h4 class="h4">Company</h4><ul>
+<li><a href="/about.html">About</a></li>
+<li><a href="/services.html#approach">Approach</a></li>
+<li><a href="/experience.html">Experience</a></li>
+<li><a href="{contact_href}">Contact</a></li>
+</ul></div>
+<div><h4 class="h4">Services</h4><ul>
+{''.join(f'<li><a href="/services/{s["slug"]}.html">{esc(s["title"].split(" &")[0].split(" and")[0])}</a></li>' for s in C['services'])}
+</ul></div>
+<div><h4 class="h4">Contact</h4><ul class="bh-footer__contact">
+<li>{icon('mail')}<a href="mailto:{C['site']['contact']['email']}">{esc(C['site']['contact']['email'])}</a></li>
+<li>{icon('phone')}<span>{phones_html}</span></li>
+<li>{icon('map-pin')}<span>{esc(C['site']['contact']['location'])}</span></li>
+</ul></div>
+<div><h4 class="h4">Hours</h4><ul class="bh-footer__contact">
+<li>{icon('clock')}<span>Monday to Friday</span></li>
+</ul></div>
+</div>
+<div class="bh-footer__base small"><span>&copy; <span id="yr"></span> {esc(C['site']['name'])} &middot; {esc(C['site']['tagline'])}</span>
+<a class="bh-iconbtn bh-iconbtn--inverse bh-iconbtn--sm" href="{home_href}" aria-label="Back to top">{icon('arrow-right', extra='bh-i--up')}</a></div>
+<p class="caption" style="padding:var(--space-4) 0;color:var(--ink-inverse-muted);max-width:70ch">{esc(C['site']['name'])} provides advisory and analytical services within the applicable regulatory and professional framework. Nothing on this website constitutes an offer of securities or investment advice to any person. &middot; <a href="/privacy.html">Privacy notice</a> &middot; <a href="/terms.html">Terms of use</a></p>
+</div></footer>"""
 
 
-def page(title, description, path, body, home=False, extra_jsonld=None, extra_body_attrs=""):
+def page(title, description, path, body, home=False, extra_jsonld=None):
     active_path = "/" + path.lstrip("/") if path != "/" else "/"
     return f"""<!doctype html>
 <html lang="en-UG">
 <head>
 {head(title, description, path, extra_jsonld)}
 </head>
-<body{extra_body_attrs}>
+<body class="bh-root">
 <a href="#main" class="skip">Skip to content</a>
-<div class="scroll-progress" aria-hidden="true"></div>
-<button class="to-top" id="toTop" aria-label="Back to top">{ICON['arrow-up']}</button>
-
-{nav_html(active_path, home)}
-
+{header_html(active_path, home)}
 <main id="main">
 {body}
 </main>
-
-{footer_html()}
+{footer_html(home)}
 <script src="/js/main.js" defer></script>
 </body>
 </html>
@@ -226,246 +229,235 @@ def page(title, description, path, body, home=False, extra_jsonld=None, extra_bo
 
 
 # ---------------------------------------------------------------------------
-# Reusable section renderers
+# Shared section components
 # ---------------------------------------------------------------------------
 
-def section_head(eyebrow, h2_html, lead=None, extra_class=""):
-    lead_html = f'<p class="lead reveal" data-d="2">{lead}</p>' if lead else ""
-    h2 = f'<h2 class="h2 reveal" data-d="1">{h2_html}</h2>' if h2_html else ""
-    return f"""<div class="section-head {extra_class}">
-      <span class="eyebrow reveal">{esc(eyebrow)}</span>
-      {h2}
+def section_header(eyebrow_text, heading_html, lead=None, split_link=None, center=False, label_dot=True):
+    tag_cls = "bh-tag bh-tag--label bh-tag--dot" if label_dot else "eyebrow bh-eyebrow"
+    tag = f'<span class="{tag_cls}">{esc(eyebrow_text)}</span>' if label_dot else f'<span class="eyebrow bh-eyebrow">{esc(eyebrow_text)}</span>'
+    lead_html = f'<p class="body-lg bh-sh__lead">{lead}</p>' if lead else ""
+    sh_cls = "bh-sh" + (" bh-sh--center" if center else "")
+    inner = f"""<div class="{sh_cls}">
+      {tag}
+      <h2 class="h2">{heading_html}</h2>
       {lead_html}
     </div>"""
+    if split_link:
+        label, href = split_link
+        return f"""<div class="bh-sh-split">{inner}<a class="bh-arrowlink" href="{href}">{label}{icon('arrow-right')}</a></div>"""
+    return inner
 
 
-def about_who_we_support(id_attr="about", show_heading=True):
-    a = C["about"]
-    auds = C["audiences"]
-    svc_by_pillar = {s["slug"]: s for s in C["services"]}
-    tabs = []
-    panels = []
-    labels = {"enterprises": "t-ent", "investors": "t-inv", "institutions": "t-ins"}
-    panel_ids = {"enterprises": "p-ent", "investors": "p-inv", "institutions": "p-ins"}
-    for i, aud in enumerate(auds):
-        tid, pid = labels[aud["id"]], panel_ids[aud["id"]]
-        selected = "true" if i == 0 else "false"
-        tabindex = "" if i == 0 else ' tabindex="-1"'
-        tabs.append(f'<button class="aud-tab" role="tab" id="{tid}" aria-controls="{pid}" aria-selected="{selected}"{tabindex}>{aud["label"]}</button>')
-        pillar = svc_by_pillar[aud["servicePillar"]]
-        hidden = "" if i == 0 else " hidden"
-        panels.append(f"""<div class="aud-panel" role="tabpanel" id="{pid}" aria-labelledby="{tid}"{hidden}>
-        <p class="kicker">Who we support</p>
-        <h3 class="h3">{esc(aud['text'].split('.')[0])}.</h3>
-        <p>{esc(aud['text'])}</p>
-        <div class="aud-match"><span class="num">{pillar['number']}</span><div><b>{esc(pillar['title'])}</b><span>{esc(', '.join(pillar['deliverables'][:4]))}.</span></div></div>
-      </div>""")
-    head_html = section_head('About BlueHarbor', 'Practical, locally grounded advice <span class="serif">for capital decisions.</span>') if show_heading else ""
-    lead_html = f'<p class="lead reveal">{esc(a["summary"])}</p>' if show_heading else ""
-    return f"""<section class="section" id="{id_attr}">
-  <div class="container about-grid">
-    <div class="about-copy">
-      {head_html}
-      {lead_html}
-      <p class="muted reveal">{esc(a['detail'])}</p>
-    </div>
-    <div class="audience reveal" data-reveal="right" data-d="1">
-      <div class="aud-tabs" role="tablist" aria-label="Who we support">
-        {''.join(tabs)}
-      </div>
-      {''.join(panels)}
-    </div>
-  </div>
-</section>"""
+def audience_card(idx, audience_id, eyebrow_text, heading, body_text, icon_name, href, foot_label,
+                   feature=False):
+    tile_cls = "bh-tile bh-tile--inverse" if feature else "bh-tile"
+    btn_cls = "bh-iconbtn bh-iconbtn--sm bh-iconbtn--inverse" if feature else "bh-iconbtn bh-iconbtn--sm"
+    card_cls = "bh-card bh-card--feature bh-on-inverse" if feature else "bh-card"
+    foot = ""
+    if foot_label:
+        foot = f"""<div class="bh-card__foot"><span>{esc(foot_label)}</span><span class="{btn_cls}">{icon('arrow-up-right')}</span></div>"""
+    tag = f'<a class="{card_cls}" href="{href}">' if href else f'<div class="{card_cls}">'
+    close = '</a>' if href else '</div>'
+    return f"""{tag}<div class="bh-card__top"><span class="{tile_cls}">{icon(icon_name)}</span><span class="bh-card__index">{idx:02d}</span></div><span class="eyebrow bh-eyebrow">{esc(eyebrow_text)}</span><h3 class="h3">{esc(heading)}</h3><p class="body bh-muted">{esc(body_text)}</p>{foot}{close}"""
 
 
-def services_accordion(id_attr="services", default_open=0, show_heading=True):
-    s = C["services"]
-    items = []
-    for i, svc in enumerate(s):
-        open_attr = "true" if i == default_open else "false"
-        aria = "true" if i == default_open else "false"
-        deliv = "".join(f"<li>{esc(d)}</li>" for d in svc["deliverables"])
-        items.append(f"""<article class="svc reveal" data-open="{open_attr}">
-        <button class="svc-head" aria-expanded="{aria}" aria-controls="svc{i+1}">
-          <span class="svc-num">{svc['number']}</span><span class="svc-title">{esc(svc['title'])}</span>
-          <span class="svc-toggle">{ICON['plus']}</span>
-        </button>
-        <div class="svc-body" id="svc{i+1}"><div><div class="svc-content">
-          <p>{esc(svc['body'])}</p>
-          <div class="deliv"><h4>Typical deliverables</h4><ul>{deliv}</ul></div>
-        </div></div></div>
-        <p style="padding:0 0 28px"><a class="link-arrow" href="/services/{svc['slug']}.html">Learn more about this service {ICON['arrow-right']}</a></p>
-      </article>""")
-    head_html = section_head('Our advisory services', 'Three pillars, <span class="serif">from preparation to execution.</span>', esc(C['servicesIntro'])) if show_heading else ""
-    return f"""<section class="section services" id="{id_attr}">
-  <div class="container">
-    {head_html}
-    <div class="svc-list">
-      {''.join(items)}
-    </div>
-  </div>
-</section>"""
+def plain_icon_card(heading, body_text, icon_name, navy=False):
+    tile_cls = "bh-tile bh-tile--navy" if navy else "bh-tile"
+    return f"""<div class="bh-card" style="cursor:default"><span class="{tile_cls}">{icon(icon_name)}</span><h3 class="h3" style="margin-top:var(--space-2)">{esc(heading)}</h3><p class="body bh-muted">{esc(body_text)}</p></div>"""
 
 
-def approach_section(id_attr="approach"):
-    steps = C["approach"]["steps"]
-    items = "".join(
-        f'<li class="step"><span class="step-dot">{s["n"]}</span><div><h3>{esc(s["title"])}</h3><p>{esc(s["text"])}</p></div></li>'
-        for s in steps
-    )
-    return f"""<section class="section approach on-dark" id="{id_attr}">
-  <div class="container">
-    {section_head('Our engagement approach', 'A clear course, <span class="serif">agreed from the outset.</span>')}
-    <ol class="steps" id="steps">
-      <li class="progress" aria-hidden="true"></li>
-      {items}
-    </ol>
-    <div class="principle reveal">
-      <span class="tag">{esc(C['headings']['operatingPrincipleLabel'])}</span>
-      <p>{esc(C['approach']['operatingPrinciple'])}</p>
-    </div>
-  </div>
-</section>"""
+# ---------------------------------------------------------------------------
+# Home-page sections
+# ---------------------------------------------------------------------------
+
+AUDIENCE_META = {
+    "enterprises": {"icon": "building", "headline": "Ready your business for capital", "foot": "Explore support"},
+    "investors": {"icon": "trending-up", "headline": "Decide with discipline", "foot": "Explore support"},
+    "institutions": {"icon": "landmark", "headline": "Widen access to finance", "foot": "Explore support"},
+}
+
+SECTOR_ICONS = {
+    "Agribusiness": "leaf",
+    "Manufacturing": "factory",
+    "Technology-enabled services": "cpu",
+    "Financial inclusion": "coins",
+    "Climate-related enterprises": "globe",
+}
+
+SERVICE_ICONS = ["calculator", "layers", "globe"]
+STEP_ICONS = ["target", "search", "file-text", "check"]
+EXPERIENCE_ICONS = ["trending-up", "building", "coins"]
+WHY_ICONS = ["map-pin", "layers", "file-text"]
+VALUE_ICONS = {"Excellence": "award", "Integrity": "shield-check", "Client focus": "target"}
 
 
-def markets_section(id_attr="markets"):
+def hero_section():
+    mo = C["marketOrientation"][0]
+    rows = []
+    for aud in C["audiences"]:
+        meta = AUDIENCE_META[aud["id"]]
+        svc = next(s for s in C["services"] if s["slug"] == aud["servicePillar"])
+        short = aud["text"].split(".")[0] + "."
+        rows.append(f"""<a class="bh-hero__row" href="/services/{svc['slug']}.html"><span class="bh-tile bh-tile--inverse">{icon(meta['icon'])}</span><span><b>{esc(aud['label'])}</b><small>{esc(short)}</small></span><span class="bh-iconbtn bh-iconbtn--inverse bh-iconbtn--sm">{icon('arrow-up-right')}</span></a>""")
+    return f"""<section class="bh-hero" id="top"><div class="bh-container"><div class="bh-hero__grid">
+<div class="bh-hero__copy">
+<span class="bh-tag bh-tag--dot">Investment advisory &middot; Corporate finance</span>
+<h1 class="display-xl">Navigating <span class="bh-em">growth</span>. Empowering success.</h1>
+<p class="body-lg bh-muted" style="max-width:60ch">{esc(C['site']['description'])}</p>
+<div class="bh-hero__actions"><a class="bh-btn bh-btn--primary bh-btn--chip bh-btn--lg" href="#contact">Discuss your mandate<span class="bh-btn__chip">{icon('arrow-right')}</span></a><a class="bh-btn bh-btn--secondary bh-btn--lg" href="#services">Explore our services</a></div>
+<ul class="bh-hero__proof"><li>{icon('check')}Locally grounded advice</li><li>{icon('check')}Scoped to each mandate</li><li>{icon('check')}Client confidentiality</li></ul>
+</div>
+<div class="bh-hero__visual">
+<aside class="bh-hero__panel bh-on-inverse"><div class="bh-hero__panel-head"><span class="eyebrow bh-eyebrow">Who we support</span><span class="bh-tag bh-tag--inverse">3 audiences</span></div>
+<div class="bh-hero__rows">{''.join(rows)}</div></aside>
+<div class="bh-hero__badge"><span class="bh-tile bh-tile--sm">{icon('globe')}</span><span><b>Uganda &amp; East Africa</b><small>Based in Kampala</small></span></div>
+</div>
+</div></div></section>"""
+
+
+def who_we_support_section(show_header=True):
+    cards = []
+    for i, aud in enumerate(C["audiences"]):
+        meta = AUDIENCE_META[aud["id"]]
+        svc = next(s for s in C["services"] if s["slug"] == aud["servicePillar"])
+        feature = (i == 1)
+        cards.append(audience_card(i + 1, aud["id"], aud["label"], meta["headline"], aud["text"],
+                                    meta["icon"], f"/services/{svc['slug']}.html", meta["foot"], feature=feature))
+    head_html = section_header("Who we support", 'Routed to the right <span class="bh-em">advisory</span> pillar') if show_header else ""
+    return f"""<section class="bh-pv" id="who-we-support" style="padding-block:var(--space-9)"><div class="bh-container">
+{head_html}
+<div class="bh-grid-3" style="margin-top:{'var(--space-7)' if show_header else '0'}">{''.join(cards)}</div>
+</div></section>"""
+
+
+def market_orientation_section(show_header=True):
     mo = C["marketOrientation"]
-    geo, sectors, mandate = mo[0], mo[1], mo[2]
-    chips = "".join(f'<span class="chip">{esc(x)}</span>' for x in sectors["items"])
-    return f"""<section class="section" id="{id_attr}">
-  <div class="container">
-    {section_head('Market orientation', 'Rooted in Uganda. <span class="serif">Regional in perspective.</span>')}
-    <div class="markets-grid">
-      <div class="mk reveal" data-reveal="scale">
-        <span class="mk-icon">{ICON['globe']}</span>
-        <h3>{esc(geo['label'])}</h3>
-        <p>{esc(geo['text'])}</p>
-      </div>
-      <div class="mk reveal" data-reveal="scale" data-d="1">
-        <span class="mk-icon">{ICON['sectors']}</span>
-        <h3>{esc(sectors['label'])}</h3>
-        <div class="chips">{chips}</div>
-      </div>
-      <div class="mk reveal" data-reveal="scale" data-d="2">
-        <span class="mk-icon">{ICON['mandate']}</span>
-        <h3>{esc(mandate['label'])}</h3>
-        <p>{esc(mandate['text'])}</p>
-      </div>
-    </div>
-  </div>
-</section>"""
+    chips = "".join(f'<span class="bh-tag">{icon(SECTOR_ICONS.get(x, "layers"))}{esc(x)}</span>' for x in mo[1]["items"])
+    head_html = section_header("Market orientation", 'Rooted in Uganda, <span class="bh-em">regional</span> in perspective') if show_header else ""
+    return f"""<section class="bh-pv" style="background:var(--surface-wash);padding-block:var(--space-9)"><div class="bh-container">
+{head_html}
+<div class="bh-facts" style="margin-top:{'var(--space-7)' if show_header else '0'}">
+<div class="bh-fact"><span class="bh-tile">{icon('map-pin')}</span><span class="eyebrow bh-eyebrow">{esc(mo[0]['label'])}</span><p class="body">{esc(mo[0]['text'])}</p></div>
+<div class="bh-fact"><span class="bh-tile">{icon('layers')}</span><span class="eyebrow bh-eyebrow">{esc(mo[1]['label'])}</span><div class="bh-tags">{chips}</div></div>
+<div class="bh-fact"><span class="bh-tile">{icon('target')}</span><span class="eyebrow bh-eyebrow">{esc(mo[2]['label'])}</span><p class="body">{esc(mo[2]['text'])}</p></div>
+</div>
+</div></section>"""
 
 
-def why_section(id_attr="why"):
-    items = C["why"]
-    romans = ["i.", "ii.", "iii."]
-    blocks = "".join(
-        f'<div class="why-item reveal" data-d="{i}"><span class="idx">{romans[i]}</span><h3 class="h3">{esc(it["title"])}</h3><p>{esc(it["text"])}</p></div>'
-        for i, it in enumerate(items)
-    )
-    return f"""<section class="section why" id="{id_attr}">
-  <div class="container">
-    {section_head('Why work with BlueHarbor', 'From analysis <span class="serif">to decisions.</span>')}
-    <div class="why-grid">
-      {blocks}
-    </div>
-  </div>
-</section>"""
-
-
-def experience_section(id_attr="experience"):
-    exp = C["experience"]
-    rows = "".join(f"""<div class="exp-row reveal"><div><h3>{esc(a['title'])}</h3><span class="exp-region">{ICON['map-pin-thin']}{esc(a['region'])}</span></div><p>{esc(a['text'])}</p></div>""" for a in exp["areas"])
-    return f"""<section class="section" id="{id_attr}">
-  <div class="container">
-    {section_head('Experience & capabilities', 'Relevant professional <span class="serif">experience.</span>', esc(exp['intro']))}
-    <p class="disclaimer reveal" style="margin:0 0 28px">{ICON['info']}{esc(exp['disclaimer'])}</p>
-    <div class="exp-table">
-      {rows}
-    </div>
-  </div>
-</section>"""
-
-
-def purpose_section(id_attr="purpose"):
+def purpose_section(show_header=True):
     p = C["purpose"]
-    icons = ["excellence", "integrity", "client-focus"]
-    values = "".join(f"""<div class="value reveal" data-reveal="right" data-d="{i}"><span class="value-icon">{ICON[icons[i]]}</span><div><h3>{esc(v['name'])}</h3><p>{esc(v['text'])}</p></div></div>""" for i, v in enumerate(p["values"]))
-    return f"""<section class="section purpose on-dark" id="{id_attr}">
-  <div class="container">
-    {section_head('Purpose & principles', '')}
-    <div class="purpose-grid">
-      <div class="mv">
-        <div class="mv-item reveal" data-reveal="left"><p class="label">Mission</p><p>{esc(p['mission'])}</p></div>
-        <div class="mv-item reveal" data-reveal="left" data-d="1"><p class="label">Vision</p><p>{esc(p['vision'])}</p></div>
-      </div>
-      <div class="values">
-        {values}
-      </div>
-    </div>
-  </div>
-</section>"""
+    values = "".join(plain_icon_card(v["name"], v["text"], VALUE_ICONS.get(v["name"], "award"), navy=True) for v in p["values"])
+    head_html = section_header("Purpose & principles", 'What we stand <span class="bh-em">for</span>') if show_header else ""
+    return f"""<section class="bh-pv" id="purpose" style="padding-block:var(--space-9)"><div class="bh-container">
+{head_html}
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8);margin-top:{'var(--space-7)' if show_header else '0'};align-items:start">
+<div style="display:grid;gap:var(--space-6)">
+<div><span class="eyebrow bh-eyebrow">Mission</span><p class="display-lg" style="margin-top:var(--space-3)">{esc(p['mission'])}</p></div>
+<div><span class="eyebrow bh-eyebrow">Vision</span><p class="display-lg" style="margin-top:var(--space-3)">{esc(p['vision'])}</p></div>
+</div>
+<div class="bh-grid-3" style="grid-template-columns:1fr">{values}</div>
+</div>
+</div></section>"""
 
 
-def map_embed(compact=False):
+def services_section(show_header=True, default_open=True):
+    pillars = []
+    for i, svc in enumerate(C["services"]):
+        deliv = "".join(f'<span class="bh-tag">{icon("check")}{esc(d)}</span>' for d in svc["deliverables"])
+        pillars.append(f"""<article class="bh-pillar"><div class="bh-pillar__main"><div class="bh-pillar__head"><span class="bh-tile bh-tile--lg">{icon(SERVICE_ICONS[i])}</span><span class="bh-pillar__num">{svc['number']}</span></div><h3 class="h3">{esc(svc['title'])}</h3><p class="body bh-muted">{esc(svc['body'])}</p><a class="bh-arrowlink" href="/services/{svc['slug']}.html">Learn more about this service{icon('arrow-right')}</a></div><div class="bh-pillar__deliv"><span class="eyebrow bh-eyebrow">{esc(C['headings']['deliverablesLabel'])}</span><div class="bh-tags">{deliv}</div></div></article>""")
+    head_html = section_header(C["headings"]["services"], 'Three pillars, from <span class="bh-em">preparation</span> to execution', C["servicesIntro"]) if show_header else ""
+    return f"""<section class="bh-pv" id="services" style="background:var(--surface-tint);padding-block:var(--space-9)"><div class="bh-container">
+{head_html}
+<div class="bh-pillars" style="margin-top:{'var(--space-7)' if show_header else '0'}">{''.join(pillars)}</div>
+</div></section>"""
+
+
+def approach_section(show_header=True):
+    steps = C["approach"]["steps"]
+    items = "".join(f"""<li><div class="bh-steps__icon"><span class="bh-tile">{icon(STEP_ICONS[i])}</span><span class="bh-steps__n">{s['n']}</span></div><h4 class="h4">{esc(s['title'])}</h4><p class="body bh-muted">{esc(s['text'])}</p></li>""" for i, s in enumerate(steps))
+    head_html = section_header(C["headings"]["approach"], 'A clear course, <span class="bh-em">agreed</span> from the outset') if show_header else ""
+    return f"""<section class="bh-pv" id="approach" style="padding-block:var(--space-9)"><div class="bh-container">
+{head_html}
+<ol class="bh-steps" style="margin-top:{'var(--space-7)' if show_header else '0'}">{items}</ol>
+<div class="bh-callout" style="margin-top:var(--space-7)"><span class="bh-tile bh-tile--navy">{icon('shield-check')}</span><div class="bh-callout__body"><span class="eyebrow bh-eyebrow">{esc(C['headings']['operatingPrincipleLabel'])}</span><p class="body">{esc(C['approach']['operatingPrinciple'])}</p></div></div>
+</div></section>"""
+
+
+def experience_section(show_header=True):
+    exp = C["experience"]
+    rows = []
+    for i, a in enumerate(exp["areas"]):
+        open_attr = " open" if i == 0 else ""
+        rows.append(f"""<details class="bh-cap"{open_attr}><summary><span class="bh-tile">{icon(EXPERIENCE_ICONS[i])}</span><span><h4 class="h4">{esc(a['title'])}</h4><span class="bh-tag bh-tag--soft">{icon('map-pin')}{esc(a['region'])}</span></span><span class="bh-iconbtn bh-iconbtn--sm">{icon('plus')}</span></summary><p class="body bh-cap__body">{esc(a['text'])}</p></details>""")
+    head_html = section_header(C["headings"]["experience"], 'Relevant professional <span class="bh-em">experience</span>', exp["intro"]) if show_header else ""
+    return f"""<section class="bh-pv" style="background:var(--surface-wash);padding-block:var(--space-9)"><div class="bh-container">
+{head_html}
+<div class="bh-callout" style="margin:{'var(--space-7)' if show_header else '0'} 0 var(--space-5)"><span class="bh-tile bh-tile--navy">{icon('shield-check')}</span><div class="bh-callout__body"><p class="body">{esc(exp['disclaimer'])}</p></div></div>
+<div class="bh-caps">{''.join(rows)}</div>
+</div></section>"""
+
+
+def why_section(show_header=True):
+    cards = []
+    for i, w in enumerate(C["why"]):
+        cards.append(audience_card(i + 1, "why", w["title"].split(",")[0], w["title"], w["text"], WHY_ICONS[i],
+                                    "/contact.html", "Get in touch"))
+    head_html = section_header(C["headings"]["why"], 'From analysis to <span class="bh-em">decisions</span>') if show_header else ""
+    return f"""<section class="bh-pv" style="padding-block:var(--space-9)"><div class="bh-container">
+{head_html}
+<div class="bh-grid-3" style="margin-top:{'var(--space-7)' if show_header else '0'}">{''.join(cards)}</div>
+</div></section>"""
+
+
+def map_card():
     q = C["site"]["contact"]["mapQuery"].replace(" ", "+")
     src = f"https://www.google.com/maps?q={q}&z=15&output=embed"
-    return f"""<div class="map reveal">
-        <iframe title="Map showing BlueHarbor Advisory in {esc(C['site']['contact']['location'])}"
-          data-src="{src}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-        <div class="map-bar"><span>{esc(C['site']['contact']['location'])}</span>
-          <a class="link-arrow" href="{C['site']['contact']['directionsUrl']}" target="_blank" rel="noopener">Get directions {ICON['arrow-right']}</a></div>
-      </div>"""
+    return f"""<div class="bh-map">
+  <iframe title="Map showing BlueHarbor Advisory in {esc(C['site']['contact']['location'])}" data-src="{src}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  <div class="bh-map-bar"><span class="small">{esc(C['site']['contact']['location'])}</span><a class="bh-arrowlink" href="{C['site']['contact']['directionsUrl']}" target="_blank" rel="noopener">Get directions{icon('arrow-right')}</a></div>
+</div>"""
 
 
-def contact_section(id_attr="contact", heading_tag="h2", crumbs_html="", show_heading=True):
+def contact_cta_and_form(show_header=False):
     phones = C["site"]["contact"]["phones"]
-    phones_html = " &nbsp;·&nbsp; ".join(f'<a href="tel:{p.replace(" ", "")}">{p}</a>' for p in phones)
+    phones_line = " &middot; ".join(phones)
     services_opts = "".join(f"<option>{esc(s['title'])}</option>" for s in C["services"]) + "<option>Not sure yet</option>"
-    heading_html = f"""<span class="eyebrow reveal">Contact</span>
-      <{heading_tag} class="h2 reveal" data-d="1" style="margin-top:20px">Let's discuss <span class="serif">your mandate.</span></{heading_tag}>
-      <p class="lead reveal" data-d="2" style="margin-top:20px">{esc(C['cta']['text'])}</p>""" if show_heading else ""
-    return f"""<section class="section contact on-dark" id="{id_attr}">
-  <div class="container contact-grid">
-    <div>
-      {crumbs_html}
-      {heading_html}
-      <div class="contact-details">
-        <div class="cd reveal" data-reveal="left"><span class="cd-icon">{ICON['mail']}</span><div><small>Email</small><a href="mailto:{C['site']['contact']['email']}">{C['site']['contact']['email']}</a></div></div>
-        <div class="cd reveal" data-reveal="left" data-d="1"><span class="cd-icon">{ICON['phone']}</span><div><small>Phone</small>{phones_html}</div></div>
-        <div class="cd reveal" data-reveal="left" data-d="2"><span class="cd-icon">{ICON['map-pin']}</span><div><small>Office</small><span>{esc(C['site']['contact']['location'])}</span></div></div>
-      </div>
-      {map_embed()}
-    </div>
+    cta = f"""<section class="bh-cta" id="contact"><div class="bh-container"><div class="bh-cta__card bh-on-inverse">
+<div class="bh-cta__copy"><span class="bh-tag bh-tag--inverse bh-tag--dot">Contact</span><h2 class="display-lg">Let's discuss your <span class="bh-em">mandate</span></h2><p class="body-lg">{esc(C['cta']['text'])}</p>
+<div class="bh-cta__actions"><a class="bh-btn bh-btn--inverse bh-btn--chip bh-btn--lg" href="#contact-form">Discuss your mandate<span class="bh-btn__chip">{icon('arrow-right')}</span></a><a class="bh-btn bh-btn--inverse-outline bh-btn--lg" href="mailto:{C['site']['contact']['email']}">{icon('mail')}Email the team</a></div></div>
+<div class="bh-cta__details">
+<a class="bh-cta__item" href="mailto:{C['site']['contact']['email']}"><span class="bh-tile bh-tile--inverse">{icon('mail')}</span><span><small>Email</small><span>{esc(C['site']['contact']['email'])}</span></span></a>
+<a class="bh-cta__item" href="tel:{phones[0].replace(' ', '')}"><span class="bh-tile bh-tile--inverse">{icon('phone')}</span><span><small>Phone</small><span>{esc(phones_line)}</span></span></a>
+<div class="bh-cta__item"><span class="bh-tile bh-tile--inverse">{icon('map-pin')}</span><span><small>Location</small><span>{esc(C['site']['contact']['location'])}</span></span></div>
+</div>
+</div></div></section>"""
 
-    <form class="form reveal" data-reveal="right" id="contactForm" novalidate
-      data-access-key="YOUR_WEB3FORMS_ACCESS_KEY" data-mailto="{C['site']['contact']['email']}">
-      <h3>Tell us about your requirement</h3>
-      <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" required><span class="err">Please enter your name.</span></div>
-      <div class="field"><label for="f-org">Organisation</label><input id="f-org" name="organisation" autocomplete="organization"></div>
-      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required><span class="err">Please enter a valid email.</span></div>
-      <div class="field"><label for="f-phone">Phone <span class="muted" style="font-weight:400">(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
-      <fieldset class="field full" style="border:0;padding:0;margin:0">
-        <legend style="font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:7px">I am reaching out as</legend>
-        <div class="seg">
-          <input type="radio" name="type" id="r1" value="Enterprise" checked><label for="r1">An enterprise</label>
-          <input type="radio" name="type" id="r2" value="Investor"><label for="r2">An investor</label>
-          <input type="radio" name="type" id="r3" value="Institution"><label for="r3">An institution / programme</label>
-        </div>
-      </fieldset>
-      <div class="field full"><label for="f-svc">Area of interest</label>
-        <select id="f-svc" name="service">{services_opts}</select></div>
-      <div class="field full"><label for="f-msg">Briefly describe your mandate</label><textarea id="f-msg" name="message" required placeholder="Objectives, sector, stage of growth, financing needs, timing…"></textarea><span class="err">Please add a short description.</span></div>
-      <div class="form-foot">
-        <small>Information you share is treated confidentially and used only to respond to your enquiry.</small>
-        <button class="btn btn-primary" type="submit">Send enquiry {ICON['arrow-right']}</button>
-      </div>
-      <p class="form-error" id="formError" role="alert"></p>
-      <p class="form-success" id="formOk" role="status">Thank you — your enquiry has been received. A member of the BlueHarbor team will be in touch.</p>
-    </form>
-  </div>
-</section>
+    form = f"""<section class="bh-pv" id="contact-form" style="padding-block:var(--space-9)"><div class="bh-container" style="display:grid;gap:var(--space-7);max-width:var(--container-narrow);margin-inline:auto">
+<div class="bh-formcard" style="max-width:none">
+<form class="bh-form" id="contactForm" novalidate data-access-key="YOUR_WEB3FORMS_ACCESS_KEY" data-mailto="{C['site']['contact']['email']}">
+<h3 class="h3">Tell us about your requirement</h3>
+<div class="bh-form__row">
+<div class="bh-field"><label for="f-name">Full name</label><div class="bh-input">{icon('users')}<input id="f-name" name="name" autocomplete="name" required></div><span class="small bh-field__error" hidden>{icon('close')}Please enter your name.</span></div>
+<div class="bh-field"><label for="f-org">Organisation</label><div class="bh-input">{icon('building')}<input id="f-org" name="organisation" autocomplete="organization"></div></div>
+</div>
+<div class="bh-form__row">
+<div class="bh-field"><label for="f-email">Work email</label><div class="bh-input">{icon('mail')}<input id="f-email" name="email" type="email" autocomplete="email" required></div><span class="small bh-field__error" hidden>{icon('close')}Enter a full email address, for example name@company.com.</span></div>
+<div class="bh-field"><label for="f-phone">Phone <span class="bh-muted" style="font-weight:400">(optional)</span></label><div class="bh-input">{icon('phone')}<input id="f-phone" name="phone" type="tel" autocomplete="tel"></div></div>
+</div>
+<fieldset class="bh-field"><legend>I am a</legend><div class="bh-seg">
+<label><input type="radio" name="type" id="r1" value="Enterprise" checked><span>{icon('building')}Enterprise</span></label>
+<label><input type="radio" name="type" id="r2" value="Investor"><span>{icon('trending-up')}Investor</span></label>
+<label><input type="radio" name="type" id="r3" value="Institution"><span>{icon('landmark')}Institution</span></label>
+</div></fieldset>
+<div class="bh-field"><label for="f-svc">Area of interest</label><select id="f-svc" name="service">{services_opts}</select></div>
+<div class="bh-field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required placeholder="Your mandate, sector, stage of growth and timing" aria-describedby="m-h"></textarea><span id="m-h" class="caption bh-field__hint">Tell us about your mandate, sector and timing.</span><span class="small bh-field__error" hidden>{icon('close')}Please add a short description.</span></div>
+<p class="bh-form-banner bh-form-banner--ok" id="formOk" role="status">Thank you &mdash; your enquiry has been received. A member of the BlueHarbor team will be in touch.</p>
+<p class="bh-form-banner bh-form-banner--err" id="formError" role="alert"></p>
+<div class="bh-form__foot"><span class="caption bh-form__note">{icon('shield-check')}Enquiries are treated as confidential.</span><button class="bh-btn bh-btn--accent" type="submit">Send enquiry{icon('send')}</button></div>
+</form>
+</div>
+{map_card()}
+</div></section>
 <script>
 (function(){{
   var p = new URLSearchParams(location.search).get('service');
@@ -482,102 +474,54 @@ def contact_section(id_attr="contact", heading_tag="h2", crumbs_html="", show_he
   for (var i=0;i<sel.options.length;i++){{ if(sel.options[i].text.replace(/&amp;/g,'&') === want){{ sel.selectedIndex = i; break; }} }}
 }})();
 </script>"""
+    return cta + "\n" + form
 
 
-def cta_band(path=""):
-    return f"""<section class="section-sm" style="background:var(--mist)">
-  <div class="container" style="display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
-    <div>
-      <h2 class="h3" style="margin-bottom:6px">{esc(C['cta']['title'])}</h2>
-      <p class="muted">{esc(C['cta']['text'])}</p>
-    </div>
-    <a href="/contact.html{('?service=' + path) if path else ''}" class="btn btn-outline">Discuss a mandate {ICON['arrow-right']}</a>
-  </div>
-</section>"""
-
-
-def crumbs(*pairs):
-    parts = ['<a href="/">Home</a>']
-    for label, href in pairs:
-        parts.append('<span>/</span>')
-        parts.append(f'<a href="{href}">{label}</a>' if href else f"<span>{esc(label)}</span>")
-    return f'<div class="crumbs">{"".join(parts)}</div>'
-
-
-def page_hero(eyebrow, h1, lead, crumbs_html=""):
-    return f"""<section class="page-hero on-dark">
-  <div class="container">
-    {crumbs_html}
-    <span class="eyebrow reveal">{esc(eyebrow)}</span>
-    <h1 class="h2 reveal" data-d="1">{h1}</h1>
-    <p class="lead reveal" data-d="2">{lead}</p>
-  </div>
-</section>"""
+def cta_band_mini(service_slug=""):
+    """A compact closing band for inner pages that already have their own hero/section-header."""
+    q = f"?service={service_slug}" if service_slug else ""
+    return f"""<section class="bh-pv" style="padding-block:var(--space-8)"><div class="bh-container">
+<div class="bh-callout" style="grid-template-columns:auto 1fr auto;align-items:center"><span class="bh-tile bh-tile--navy">{icon('send')}</span><div class="bh-callout__body"><span class="eyebrow bh-eyebrow">{esc(C['cta']['title'])}</span><p class="body bh-muted">{esc(C['cta']['text'])}</p></div><a class="bh-btn bh-btn--primary bh-btn--chip" href="/contact.html{q}">Discuss your mandate<span class="bh-btn__chip">{icon('arrow-right')}</span></a></div>
+</div></section>"""
 
 
 # ---------------------------------------------------------------------------
-# Home page (matches prototype section-for-section)
+# Page builders
 # ---------------------------------------------------------------------------
-
-def hero_section():
-    mo = C["marketOrientation"]
-    with open(os.path.join(ROOT, "assets", "hero", "harbour-chart.svg"), encoding="utf-8") as f:
-        chart_svg = f.read()
-    # strip xml prolog / outer <svg> wrapper attrs we don't want duplicated; keep as-is, it's already a full <svg>
-    return f"""<section class="hero on-dark" id="top">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow reveal">Investment advisory &amp; corporate finance · Kampala</span>
-      <h1 class="reveal" data-d="1">Navigating growth.<br><span class="serif">Empowering success.</span></h1>
-      <p class="lead reveal" data-d="2">{esc(C['site']['description'])}</p>
-      <div class="hero-ctas reveal" data-d="3">
-        <a href="#contact" class="btn btn-primary">Discuss your mandate {ICON['arrow-right']}</a>
-        <a href="#services" class="btn btn-ghost">Explore our services</a>
-      </div>
-    </div>
-    <div class="hero-art" aria-hidden="true">
-      {chart_svg}
-    </div>
-  </div>
-  <span class="coord">0°21′N · 32°37′E — NTINDA, KAMPALA</span>
-  <div class="hero-bar">
-    <dl class="container">
-      <div class="hero-fact reveal"><dt>{esc(mo[0]['label'])}</dt><dd>{esc(mo[0]['text'])}</dd></div>
-      <div class="hero-fact reveal" data-d="1"><dt>{esc(mo[1]['label'])}</dt><dd>{esc(', '.join(mo[1]['items']))}.</dd></div>
-      <div class="hero-fact reveal" data-d="2"><dt>{esc(mo[2]['label'])}</dt><dd>{esc(mo[2]['text'])}</dd></div>
-    </dl>
-  </div>
-</section>"""
-
 
 def build_home():
     body = "\n".join([
         hero_section(),
-        about_who_we_support(),
-        services_accordion(),
-        approach_section(),
-        markets_section(),
-        why_section(),
-        experience_section(),
+        who_we_support_section(),
+        market_orientation_section(),
         purpose_section(),
-        contact_section(),
+        services_section(),
+        approach_section(),
+        experience_section(),
+        why_section(),
+        contact_cta_and_form(),
     ])
-    desc = C["site"]["description"]
     return page(
         f"{C['site']['shortName']} — Investment Advisory & Corporate Finance, Kampala",
-        desc, "/", body, home=True,
+        C["site"]["description"], "/", body, home=True,
     )
+
+
+def inner_hero(eyebrow_text, heading_html, lead=""):
+    return f"""<section class="bh-pv" style="background:var(--surface-tint);padding-block:var(--space-8)"><div class="bh-container">
+{section_header(eyebrow_text, heading_html, lead)}
+</div></section>"""
 
 
 def build_about():
     body = "\n".join([
-        page_hero("About BlueHarbor", 'Practical, locally grounded <span class="serif">advice for capital decisions.</span>',
-                  esc(C["about"]["summary"]), crumbs(("About", ""))),
-        about_who_we_support(id_attr="who-we-support", show_heading=False),
-        markets_section(),
+        inner_hero("About BlueHarbor", 'Practical, locally grounded <span class="bh-em">advice</span>', C["about"]["summary"]),
+        f"""<section class="bh-pv" style="padding-block:var(--space-8) var(--space-9)"><div class="bh-container"><p class="body-lg bh-muted" style="max-width:var(--container-narrow)">{esc(C['about']['detail'])}</p></div></section>""",
+        who_we_support_section(show_header=False),
+        market_orientation_section(),
         purpose_section(),
         why_section(),
-        cta_band(),
+        cta_band_mini(),
     ])
     return page(
         "About BlueHarbor Advisory — Investment Advisory Firm in Kampala, Uganda",
@@ -587,11 +531,10 @@ def build_about():
 
 def build_services_overview():
     body = "\n".join([
-        page_hero("Our advisory services", 'Three pillars, <span class="serif">from preparation to execution.</span>',
-                  esc(C["servicesIntro"]), crumbs(("Services", ""))),
-        services_accordion(id_attr="services-list", show_heading=False),
+        inner_hero("Our advisory services", 'Three pillars, from <span class="bh-em">preparation</span> to execution', C["servicesIntro"]),
+        services_section(show_header=False),
         approach_section(),
-        cta_band(),
+        cta_band_mini(),
     ])
     return page(
         "Advisory Services — Corporate Finance, Transaction Advisory & Development Finance",
@@ -599,35 +542,25 @@ def build_services_overview():
     )
 
 
-def build_service_detail(svc, prev_svc, next_svc):
-    deliv = "".join(f'<li>{ICON["arrow-right"]}{esc(d)}</li>' for d in svc["deliverables"])
+def build_service_detail(svc, idx, prev_svc, next_svc):
+    deliv = "".join(f'<span class="bh-tag">{icon("check")}{esc(d)}</span>' for d in svc["deliverables"])
     audience = next((a for a in C["audiences"] if a["servicePillar"] == svc["slug"]), None)
-    audience_html = ""
+    aud_html = ""
     if audience:
-        audience_html = f"""<div class="aud-match" style="margin-top:28px"><span class="num">{svc['number']}</span><div><b>Typically for {esc(audience['label'].lower())}</b><span>{esc(audience['text'])}</span></div></div>"""
-    nav_links = f"""<div class="svc-nav">
-      <a href="/services/{prev_svc['slug']}.html"><span><span class="n">{prev_svc['number']}</span>{esc(prev_svc['title'])}</span><span>{ICON['arrow-right']}</span></a>
-      <a href="/services/{next_svc['slug']}.html"><span><span class="n">{next_svc['number']}</span>{esc(next_svc['title'])}</span><span>{ICON['arrow-right']}</span></a>
-    </div>"""
+        aud_html = f"""<div class="bh-callout" style="margin-top:var(--space-6)"><span class="bh-tile bh-tile--navy">{icon(AUDIENCE_META[audience['id']]['icon'])}</span><div class="bh-callout__body"><span class="eyebrow bh-eyebrow">Typically for {esc(audience['label'].lower())}</span><p class="body">{esc(audience['text'])}</p></div></div>"""
+    nav_links = f"""<div style="display:grid;gap:var(--space-3);margin-top:var(--space-6)">
+<a class="bh-cta__item" style="background:var(--surface-wash);color:var(--ink)" href="/services/{prev_svc['slug']}.html"><span class="bh-tile">{icon(SERVICE_ICONS[(idx - 1) % 3])}</span><span><small style="color:var(--accent-text)">{prev_svc['number']}</small><span>{esc(prev_svc['title'])}</span></span></a>
+<a class="bh-cta__item" style="background:var(--surface-wash);color:var(--ink)" href="/services/{next_svc['slug']}.html"><span class="bh-tile">{icon(SERVICE_ICONS[(idx + 1) % 3])}</span><span><small style="color:var(--accent-text)">{next_svc['number']}</small><span>{esc(next_svc['title'])}</span></span></a>
+</div>"""
     body = "\n".join([
-        page_hero("Service " + svc["number"], esc(svc["title"]), esc(svc["body"]),
-                  crumbs(("Services", "/services.html"), (svc["title"], ""))),
-        f"""<section class="section">
-  <div class="container">
-    <div class="svc-detail">
-      <div class="reveal">
-        <p class="lead" style="color:var(--ink)">{esc(svc['body'])}</p>
-        {audience_html}
-        {nav_links}
-      </div>
-      <div class="deliv reveal" data-reveal="right">
-        <h4>{esc(C['headings']['deliverablesLabel'])}</h4>
-        <ul>{deliv}</ul>
-      </div>
-    </div>
+        inner_hero(f"Service {svc['number']}", esc(svc["title"]), svc["body"]),
+        f"""<section class="bh-pv" style="padding-block:0 var(--space-9)"><div class="bh-container">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)">
+    <div>{aud_html}{nav_links}</div>
+    <div class="bh-pillar__deliv"><span class="eyebrow bh-eyebrow">{esc(C['headings']['deliverablesLabel'])}</span><div class="bh-tags">{deliv}</div></div>
   </div>
-</section>""",
-        cta_band(svc["slug"]),
+</div></section>""",
+        cta_band_mini(svc["slug"]),
     ])
     return page(
         f"{svc['title']} — BlueHarbor Advisory",
@@ -637,18 +570,10 @@ def build_service_detail(svc, prev_svc, next_svc):
 
 def build_experience():
     body = "\n".join([
-        page_hero("Experience & capabilities", 'Relevant professional <span class="serif">experience.</span>',
-                  esc(C["experience"]["intro"]), crumbs(("Experience", ""))),
-        f"""<section class="section" style="padding-top:0">
-  <div class="container">
-    <p class="disclaimer reveal">{ICON['info']}{esc(C['experience']['disclaimer'])}</p>
-    <div class="exp-table">
-      {''.join(f'''<div class="exp-row reveal"><div><h3>{esc(a["title"])}</h3><span class="exp-region">{ICON['map-pin-thin']}{esc(a["region"])}</span></div><p>{esc(a["text"])}</p></div>''' for a in C["experience"]["areas"])}
-    </div>
-  </div>
-</section>""",
+        inner_hero("Experience & capabilities", 'Relevant professional <span class="bh-em">experience</span>', C["experience"]["intro"]),
+        experience_section(show_header=False),
         why_section(),
-        cta_band(),
+        cta_band_mini(),
     ])
     return page(
         "Experience & Capabilities — BlueHarbor Advisory",
@@ -656,15 +581,11 @@ def build_experience():
     )
 
 
-
 def build_contact():
-    body = contact_section(
-        id_attr="contact-form-section",
-        heading_tag="h1",
-        crumbs_html=crumbs(("Contact", "")),
-    )
-    # pad the top so the fixed nav never overlaps the crumbs on this single-section page
-    body = f'<div style="padding-top:clamp(64px,10vw,96px)"></div>\n{body}'
+    body = "\n".join([
+        inner_hero("Contact", "Let's discuss your <span class=\"bh-em\">mandate</span>", C["cta"]["text"]),
+        contact_cta_and_form(),
+    ])
     return page(
         "Contact BlueHarbor Advisory — Ntinda, Kampala, Uganda",
         C["cta"]["text"], "/contact.html", body,
@@ -678,9 +599,8 @@ wording approved by the firm (and, ideally, reviewed by Ugandan legal counsel) b
 
 def build_privacy():
     body = "\n".join([
-        page_hero("Legal", "Privacy notice", "How BlueHarbor Advisory Limited collects, uses and protects information shared through this website.", crumbs(("Privacy notice", ""))),
-        f"""<section class="section">
-  <div class="container legal">
+        inner_hero("Legal", "Privacy notice", "How BlueHarbor Advisory Limited collects, uses and protects information shared through this website."),
+        f"""<section class="bh-pv" style="padding-block:0 var(--space-9)"><div class="bh-container legal bh-legal">
     {LEGAL_PLACEHOLDER}
     <h2>1. Who we are</h2>
     <p>{esc(C['site']['name'])} ("BlueHarbor", "we", "us") is an investment advisory and corporate finance firm based in
@@ -701,21 +621,19 @@ def build_privacy():
     is only shared internally, or with external specialists engaged on a mandate, on a need-to-know basis.</p>
     <h2>5. Your rights</h2>
     <p>You may ask us at any time to access, correct or delete personal information we hold about you by emailing
-    <a href="mailto:{esc(C['site']['contact']['email'])}">{esc(C['site']['contact']['email'])}</a>.</p>
+    <a class="bh-link" href="mailto:{esc(C['site']['contact']['email'])}">{esc(C['site']['contact']['email'])}</a>.</p>
     <h2>6. Contact</h2>
-    <p>Questions about this notice can be sent to <a href="mailto:{esc(C['site']['contact']['email'])}">{esc(C['site']['contact']['email'])}</a>
+    <p>Questions about this notice can be sent to <a class="bh-link" href="mailto:{esc(C['site']['contact']['email'])}">{esc(C['site']['contact']['email'])}</a>
     or to our office in {esc(C['site']['contact']['location'])}.</p>
-  </div>
-</section>""",
+  </div></section>""",
     ])
     return page("Privacy Notice — BlueHarbor Advisory", "How BlueHarbor Advisory Limited handles personal information.", "/privacy.html", body)
 
 
 def build_terms():
     body = "\n".join([
-        page_hero("Legal", "Terms of use", "The terms that apply to your use of this website.", crumbs(("Terms of use", ""))),
-        f"""<section class="section">
-  <div class="container legal">
+        inner_hero("Legal", "Terms of use", "The terms that apply to your use of this website."),
+        f"""<section class="bh-pv" style="padding-block:0 var(--space-9)"><div class="bh-container legal bh-legal">
     {LEGAL_PLACEHOLDER}
     <h2>1. Purpose of this website</h2>
     <p>This website describes the advisory services offered by {esc(C['site']['name'])}. It is provided for general
@@ -737,25 +655,22 @@ def build_terms():
     <h2>6. Governing law</h2>
     <p>These terms are governed by the laws of the Republic of Uganda.</p>
     <h2>7. Contact</h2>
-    <p>Questions about these terms can be sent to <a href="mailto:{esc(C['site']['contact']['email'])}">{esc(C['site']['contact']['email'])}</a>.</p>
-  </div>
-</section>""",
+    <p>Questions about these terms can be sent to <a class="bh-link" href="mailto:{esc(C['site']['contact']['email'])}">{esc(C['site']['contact']['email'])}</a>.</p>
+  </div></section>""",
     ])
     return page("Terms of Use — BlueHarbor Advisory", "The terms that apply to use of this website.", "/terms.html", body)
 
 
 def build_404():
-    body = f"""<section class="notfound container">
-  <div>
-    <span class="code">404</span>
-    <h1 class="h2" style="margin:12px 0 16px">Page not found</h1>
-    <p class="lead" style="margin:0 auto 28px">The page you're looking for may have moved. Try the homepage, or get in touch directly.</p>
-    <div class="hero-ctas" style="justify-content:center">
-      <a href="/" class="btn btn-primary">Back to homepage</a>
-      <a href="/contact.html" class="btn btn-outline">Contact us</a>
+    body = f"""<section class="bh-pv bh-notfound"><div class="bh-container" style="text-align:center">
+    <span class="bh-code">404</span>
+    <h1 class="h2" style="margin:var(--space-4) 0">Page not found</h1>
+    <p class="body-lg bh-muted" style="max-width:48ch;margin:0 auto var(--space-6)">The page you're looking for may have moved. Try the homepage, or get in touch directly.</p>
+    <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap">
+      <a class="bh-btn bh-btn--primary" href="/">Back to homepage</a>
+      <a class="bh-btn bh-btn--secondary" href="/contact.html">Contact us</a>
     </div>
-  </div>
-</section>"""
+  </div></section>"""
     return page("Page not found — BlueHarbor Advisory", "The page you're looking for could not be found.", "/404.html", body)
 
 
@@ -786,7 +701,7 @@ def main():
     for i, svc in enumerate(services):
         prev_svc = services[(i - 1) % n]
         next_svc = services[(i + 1) % n]
-        write(f"services/{svc['slug']}.html", build_service_detail(svc, prev_svc, next_svc))
+        write(f"services/{svc['slug']}.html", build_service_detail(svc, i, prev_svc, next_svc))
 
     write("experience.html", build_experience())
     write("contact.html", build_contact())
@@ -809,8 +724,8 @@ def main():
             {"src": "/assets/brand/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"},
             {"src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png"},
         ],
-        "theme_color": "#F8FBFD",
-        "background_color": "#F8FBFD",
+        "theme_color": "#0a2363",
+        "background_color": "#ffffff",
         "display": "browser",
     }
     write("site.webmanifest", json.dumps(manifest, indent=2))
