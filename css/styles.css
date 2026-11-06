@@ -238,7 +238,7 @@ p{margin:0}
 
 /* ================= WHY ================= */
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px)}
-.why-item{border-top:2px solid var(--navy);padding-top:26px}
+.why-item{padding-top:6px}
 .why-item .idx{font:400 15px var(--font-serif);color:var(--teal);margin-bottom:16px;display:block}
 .why-item h3{margin-bottom:14px}
 .why-item p{color:var(--slate)}
@@ -441,9 +441,6 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
 .split.in .w > span{transform:none}
 
 /* Rule lines draw across */
-.why-item{position:relative;border-top:0}
-.why-item::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--navy);transform-origin:left;transition:transform 1.2s var(--ease) .1s}
-.js .why-item.reveal:not(.in)::before{transform:scaleX(0)}
 .exp-row{position:relative;border-bottom:0}
 .exp-row::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--line);transform-origin:left;transition:transform 1.2s var(--ease) .2s}
 .js .exp-row.reveal:not(.in)::after{transform:scaleX(0)}
