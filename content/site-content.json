@@ -56,7 +56,7 @@
       ]
     },
     {
-      "label": "Mandate approach",
+      "label": "Mandate",
       "text": "Transaction and advisory assignments designed around the client's requirements; no single standard ticket size."
     }
   ],
@@ -81,22 +81,8 @@
   "servicesIntro": "Three complementary service pillars support enterprises from investment preparation to execution and help investors move from opportunities to informed decisions.",
   "services": [
     {
-      "slug": "corporate-finance",
-      "number": "01",
-      "title": "Corporate Finance & Enterprise Advisory",
-      "body": "We help growth-stage businesses translate strategy and operating performance into credible, investable financing propositions. The scope may cover financing plans, business analysis and preparation for lender or investor engagement.",
-      "deliverables": [
-        "Investment readiness reviews",
-        "Financial models and forecasts",
-        "Business valuations",
-        "Investment memoranda and pitch materials",
-        "Capital requirements and financing options",
-        "Investor mapping"
-      ]
-    },
-    {
       "slug": "transaction-advisory",
-      "number": "02",
+      "number": "01",
       "title": "Investment & Transaction Advisory",
       "body": "We support investors and companies in identifying, evaluating, structuring and advancing transactions, drawing on financial, commercial and execution perspectives. Responsibilities are agreed for each mandate; introductions are distinguished from advisory and execution services.",
       "deliverables": [
@@ -112,7 +98,7 @@
     },
     {
       "slug": "development-finance",
-      "number": "03",
+      "number": "02",
       "title": "Development Finance & Programme Advisory",
       "body": "We assist mission-aligned programmes seeking to improve enterprise competitiveness, access to finance and market participation. Support can be provided directly or as part of a consortium, subject to a defined engagement scope.",
       "deliverables": [
@@ -122,6 +108,20 @@
         "Technical-assistance design",
         "Investment facilitation",
         "Programme reporting and outcomes tracking"
+      ]
+    },
+    {
+      "slug": "corporate-finance",
+      "number": "03",
+      "title": "Corporate Finance & Enterprise Advisory",
+      "body": "We help growth-stage businesses translate strategy and operating performance into credible, investable financing propositions. The scope may cover financing plans, business analysis and preparation for lender or investor engagement.",
+      "deliverables": [
+        "Investment readiness reviews",
+        "Financial models and forecasts",
+        "Business valuations",
+        "Investment memoranda and pitch materials",
+        "Capital requirements and financing options",
+        "Investor mapping"
       ]
     }
   ],
@@ -135,7 +135,7 @@
       {
         "n": 2,
         "title": "Evaluate",
-        "text": "Review business fundamentals, risks, commercial assumptions and funding needs."
+        "text": "Review business fundamentals, risks and funding needs."
       },
       {
         "n": 3,

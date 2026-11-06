@@ -178,9 +178,9 @@ def footer_html():
         <p>Investment advisory &amp; corporate finance — Kampala, Uganda.</p>
       </div>
       <div><h4>Services</h4><ul>
-        <li><a href="/services/corporate-finance.html">Corporate Finance &amp; Enterprise</a></li>
         <li><a href="/services/transaction-advisory.html">Investment &amp; Transaction</a></li>
         <li><a href="/services/development-finance.html">Development Finance &amp; Programmes</a></li>
+        <li><a href="/services/corporate-finance.html">Corporate Finance &amp; Enterprise</a></li>
       </ul></div>
       <div><h4>Firm</h4><ul>
         <li><a href="/about.html">About</a></li>
@@ -258,7 +258,6 @@ def about_who_we_support(id_attr="about", show_heading=True):
         panels.append(f"""<div class="aud-panel" role="tabpanel" id="{pid}" aria-labelledby="{tid}"{hidden}>
         <p class="kicker">Who we support</p>
         <h3 class="h3">{esc(aud['text'].split('.')[0])}.</h3>
-        <p>{esc(aud['text'])}</p>
         <div class="aud-match"><span class="num">{pillar['number']}</span><div><b>{esc(pillar['title'])}</b><span>{esc(', '.join(pillar['deliverables'][:4]))}.</span></div></div>
       </div>""")
     head_html = section_head('About BlueHarbor', 'Practical, locally grounded advice <span class="serif">for capital decisions.</span>') if show_heading else ""
@@ -280,23 +279,20 @@ def about_who_we_support(id_attr="about", show_heading=True):
 </section>"""
 
 
-def services_accordion(id_attr="services", default_open=0, show_heading=True):
+def services_accordion(id_attr="services", show_heading=True):
     s = C["services"]
     items = []
     for i, svc in enumerate(s):
-        open_attr = "true" if i == default_open else "false"
-        aria = "true" if i == default_open else "false"
         deliv = "".join(f"<li>{esc(d)}</li>" for d in svc["deliverables"])
-        items.append(f"""<article class="svc reveal" data-open="{open_attr}">
-        <button class="svc-head" aria-expanded="{aria}" aria-controls="svc{i+1}">
+        items.append(f"""<article class="svc reveal">
+        <div class="svc-head">
           <span class="svc-num">{svc['number']}</span><span class="svc-title">{esc(svc['title'])}</span>
-          <span class="svc-toggle">{ICON['plus']}</span>
-        </button>
-        <div class="svc-body" id="svc{i+1}"><div><div class="svc-content">
+        </div>
+        <div class="svc-content">
           <p>{esc(svc['body'])}</p>
           <div class="deliv"><h4>Typical deliverables</h4><ul>{deliv}</ul></div>
-        </div></div></div>
-        <p style="padding:0 0 28px"><a class="link-arrow" href="/services/{svc['slug']}.html">Learn more about this service {ICON['arrow-right']}</a></p>
+        </div>
+        <p class="svc-learn"><a class="link-arrow" href="/services/{svc['slug']}.html">Learn more about this service {ICON['arrow-right']}</a></p>
       </article>""")
     head_html = section_head('Our advisory services', 'Three pillars, <span class="serif">from preparation to execution.</span>', esc(C['servicesIntro'])) if show_heading else ""
     return f"""<section class="section services" id="{id_attr}">
@@ -322,10 +318,6 @@ def approach_section(id_attr="approach"):
       <li class="progress" aria-hidden="true"></li>
       {items}
     </ol>
-    <div class="principle reveal">
-      <span class="tag">{esc(C['headings']['operatingPrincipleLabel'])}</span>
-      <p>{esc(C['approach']['operatingPrinciple'])}</p>
-    </div>
   </div>
 </section>"""
 
@@ -401,8 +393,11 @@ def purpose_section(id_attr="purpose"):
         <div class="mv-item reveal" data-reveal="left"><p class="label">Mission</p><p>{esc(p['mission'])}</p></div>
         <div class="mv-item reveal" data-reveal="left" data-d="1"><p class="label">Vision</p><p>{esc(p['vision'])}</p></div>
       </div>
-      <div class="values">
-        {values}
+      <div class="values-block">
+        <p class="values-heading reveal" data-reveal="left" data-d="2">Values</p>
+        <div class="values">
+          {values}
+        </div>
       </div>
     </div>
   </div>
@@ -555,12 +550,12 @@ def build_home():
     body = "\n".join([
         hero_section(),
         about_who_we_support(),
+        purpose_section(),
         services_accordion(),
         approach_section(),
         markets_section(),
         why_section(),
         experience_section(),
-        purpose_section(),
         contact_section(),
     ])
     desc = C["site"]["description"]

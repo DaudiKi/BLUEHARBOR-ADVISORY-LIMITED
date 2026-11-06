@@ -92,12 +92,6 @@
     });
   }
 
-  /* --- Services accordion --- */
-  $$('.svc-head').forEach(b => b.addEventListener('click', () => {
-    const svc = b.closest('.svc'); const open = svc.dataset.open !== 'true';
-    svc.dataset.open = open; b.setAttribute('aria-expanded', open);
-  }));
-
   /* --- Mission / vision words --- */
   const mvWords = [];
   $$('.mv-item p:not(.label)').forEach(p => {

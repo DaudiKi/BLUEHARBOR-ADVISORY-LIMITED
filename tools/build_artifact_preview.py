@@ -34,12 +34,12 @@ with open(os.path.join(ROOT, "js", "main.js"), encoding="utf-8") as f:
 sections = [
     B.hero_section(),
     B.about_who_we_support(),
+    B.purpose_section(),
     B.services_accordion(),
     B.approach_section(),
     B.markets_section(),
     B.why_section(),
     B.experience_section(),
-    B.purpose_section(),
 ]
 body_main = "\n".join(sections)
 

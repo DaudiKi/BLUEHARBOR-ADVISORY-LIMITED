@@ -58,7 +58,7 @@ button{font:inherit;cursor:pointer}
 h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.02em;line-height:1.1;color:var(--navy)}
 .h2{font-size:clamp(32px,4.4vw,52px)}
 .h3{font-size:clamp(21px,2vw,25px);letter-spacing:-.01em;line-height:1.25}
-.serif{font-family:var(--font-serif);font-weight:400;font-style:italic;letter-spacing:-.01em}
+.serif{font-family:var(--font-serif);font-weight:400;letter-spacing:-.01em}
 .lead{font-size:clamp(18px,1.6vw,20px);color:var(--slate);max-width:62ch}
 p{margin:0}
 .muted{color:var(--slate)}
@@ -170,29 +170,19 @@ p{margin:0}
 @media (max-width:900px){.about-grid{grid-template-columns:1fr}}
 
 /* ================= SERVICES ================= */
-.svc-list{border-top:1px solid var(--line)}
-.svc{border-bottom:1px solid var(--line)}
-.svc-head{display:grid;grid-template-columns:90px 1fr auto;gap:24px;align-items:center;width:100%;background:none;border:0;padding:clamp(26px,3vw,38px) 0;text-align:left;color:inherit}
-.svc-num{font:400 clamp(30px,3vw,40px)/1 var(--font-serif);color:var(--teal)}
-.svc-title{font-size:clamp(22px,2.6vw,32px);font-weight:600;letter-spacing:-.02em;color:var(--navy);line-height:1.15}
-.svc-toggle{width:46px;height:46px;border-radius:var(--radius-pill);border:1px solid var(--line);display:grid;place-items:center;transition:.3s var(--ease);color:var(--navy)}
-.svc-toggle svg{width:18px;height:18px;transition:transform .35s var(--ease)}
-.svc-head:hover .svc-toggle{border-color:var(--navy)}
-.svc[data-open="true"] .svc-toggle{background:var(--navy);color:var(--white);border-color:var(--navy)}
-.svc[data-open="true"] .svc-toggle svg{transform:rotate(45deg)}
-.svc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
-.svc[data-open="true"] .svc-body{grid-template-rows:1fr}
-.svc-body > div{overflow:hidden}
-.svc-content{display:grid;grid-template-columns:90px 1fr 1fr;gap:24px;padding-bottom:clamp(30px,3.4vw,44px)}
-.svc-content > p{grid-column:2;color:var(--slate);font-size:17.5px}
-.svc-content .deliv{grid-column:3}
+.svc-list{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,28px);align-items:stretch}
+.svc{border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--white);box-shadow:var(--shadow-sm);padding:clamp(26px,2.8vw,34px);display:flex;flex-direction:column;gap:20px}
+.svc-head{display:flex;align-items:baseline;gap:14px}
+.svc-num{font:400 clamp(24px,2vw,30px)/1 var(--font-serif);color:var(--teal)}
+.svc-title{font-size:clamp(18px,1.5vw,21px);font-weight:600;letter-spacing:-.02em;color:var(--navy);line-height:1.2}
+.svc-content{display:flex;flex-direction:column;gap:18px;flex:1}
+.svc-content > p{color:var(--slate);font-size:15.5px}
+.svc-learn{margin-top:auto;padding-top:4px}
 .deliv h4{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);font-weight:600;margin-bottom:14px}
 .deliv ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .deliv li{font-size:14.5px;padding:7px 13px;border-radius:var(--radius-pill);background:var(--mist);color:var(--navy);font-weight:500}
-@media (max-width:820px){
-  .svc-head{grid-template-columns:52px 1fr auto;gap:14px}
-  .svc-content{grid-template-columns:1fr;gap:22px}
-  .svc-content > p,.svc-content .deliv{grid-column:1}
+@media (max-width:980px){
+  .svc-list{grid-template-columns:1fr}
 }
 
 /* Service detail page */
@@ -203,7 +193,7 @@ p{margin:0}
 .svc-nav{display:grid;gap:10px;margin-top:40px}
 .svc-nav a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border:1px solid var(--line);border-radius:var(--radius);text-decoration:none;color:var(--navy);font-weight:600;transition:border-color .2s,background .2s}
 .svc-nav a:hover{border-color:var(--navy);background:var(--mist)}
-.svc-nav a .n{font-family:var(--font-serif);font-style:italic;color:var(--teal);margin-right:10px}
+.svc-nav a .n{font-family:var(--font-serif);color:var(--teal);margin-right:10px}
 
 /* ================= APPROACH ================= */
 .approach{background:var(--paper);color:var(--ink);position:relative;overflow:hidden}
@@ -217,16 +207,12 @@ p{margin:0}
 .step.lit .step-dot{background:var(--teal);border-color:var(--teal);color:var(--white);box-shadow:0 0 0 6px rgba(214,170,86,.18)}
 .step h3{font-size:14px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px;color:var(--navy)}
 .step p{color:var(--slate);font-size:16px}
-.principle{margin-top:clamp(56px,7vw,84px);padding:28px 32px;border:1px solid var(--line);border-radius:var(--radius-lg);display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;background:var(--white);box-shadow:var(--shadow-sm)}
-.principle .tag{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-600);font-weight:600;white-space:nowrap}
-.principle p{color:var(--slate)}
 @media (max-width:900px){
   .steps{grid-template-columns:1fr;gap:34px}
   .steps::before,.steps .progress{top:0;bottom:0;left:23px;right:auto;width:1px;height:auto}
   .steps .progress{height:var(--p,0%);width:1px;bottom:auto}
   .step{display:grid;grid-template-columns:46px 1fr;column-gap:22px;padding:0}
   .step-dot{margin:0;grid-row:span 2}
-  .principle{grid-template-columns:1fr;gap:10px}
 }
 
 /* ================= MARKETS ================= */
@@ -244,7 +230,7 @@ p{margin:0}
 /* ================= WHY ================= */
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px)}
 .why-item{border-top:2px solid var(--navy);padding-top:26px}
-.why-item .idx{font:400 15px var(--font-serif);font-style:italic;color:var(--teal);margin-bottom:16px;display:block}
+.why-item .idx{font:400 15px var(--font-serif);color:var(--teal);margin-bottom:16px;display:block}
 .why-item h3{margin-bottom:14px}
 .why-item p{color:var(--slate)}
 @media (max-width:900px){.why-grid{grid-template-columns:1fr}}
@@ -262,18 +248,19 @@ p{margin:0}
 
 /* ================= PRINCIPLES ================= */
 .purpose{background:var(--paper);color:var(--ink)}
-.purpose-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px)}
+.purpose-grid{display:grid;gap:clamp(32px,5vw,56px)}
 .mv{display:grid;gap:36px}
 .mv-item .label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-600);font-weight:600;margin-bottom:12px}
 .mv-item p{font:400 clamp(24px,2.6vw,32px)/1.3 var(--font-serif);color:var(--navy);letter-spacing:-.01em}
-.values{display:grid;gap:14px}
+.values-block{display:grid;gap:20px}
+.values-heading{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-600);font-weight:600}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .value{padding:24px 26px;border-radius:var(--radius);background:var(--white);border:1px solid var(--line);display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start;transition:background .3s;box-shadow:var(--shadow-sm)}
 .value:hover{background:var(--mist)}
 .value-icon{width:44px;height:44px;border-radius:var(--radius-sm);background:var(--teal-50);color:var(--teal-600);display:grid;place-items:center}
 .value-icon svg{width:22px;height:22px}
 .value h3{font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
 .value p{color:var(--slate);font-size:16px}
-@media (max-width:900px){.purpose-grid{grid-template-columns:1fr}}
 
 /* ================= CONTACT ================= */
 .contact{background:var(--paper);color:var(--ink);position:relative;overflow:hidden}
@@ -323,7 +310,7 @@ p{margin:0}
 
 /* 404 */
 .notfound{min-height:60vh;display:grid;place-items:center;text-align:center;padding:var(--section-y) 0}
-.notfound .code{font:400 clamp(70px,14vw,140px)/1 var(--font-serif);color:var(--teal);font-style:italic}
+.notfound .code{font:400 clamp(70px,14vw,140px)/1 var(--font-serif);color:var(--teal)}
 
 /* ================= FOOTER ================= */
 .footer{background:var(--paper);color:var(--slate);border-top:1px solid var(--line);padding:56px 0 36px;font-size:14.5px}
@@ -332,7 +319,7 @@ p{margin:0}
 .footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .footer a{text-decoration:none}
 .footer a:hover{color:var(--navy)}
-.footer .tagline{font:italic 400 19px var(--font-serif);color:var(--navy);margin:18px 0 10px}
+.footer .tagline{font:400 19px var(--font-serif);color:var(--navy);margin:18px 0 10px}
 .footer-bottom{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:13px}
 .footer-bottom p{max-width:70ch}
 @media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
@@ -357,7 +344,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
 @media (hover:none){
   .mk:hover{transform:none;box-shadow:none}
   .btn:hover svg,.link-arrow:hover svg{transform:none}
-  .btn:active,.svc-head:active .svc-toggle{transform:scale(.97)}
+  .btn:active{transform:scale(.97)}
 }
 
 /* Large desktops / TVs */
@@ -380,8 +367,8 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
 @media (max-width:599px){
   .hero-ctas .btn{flex:1 1 auto;justify-content:center}
   .form-foot .btn{width:100%;justify-content:center}
-  .principle{padding:22px}
   .mk{padding:24px}
+  .values{grid-template-columns:1fr}
 }
 /* Narrow phones & Fold cover screens (≤360) */
 @media (max-width:360px){
@@ -393,9 +380,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
   .hero-ctas .btn{width:100%}
   .aud-tab{font-size:13px;padding:14px 4px}
   .aud-match{flex-direction:column;gap:10px}
-  .svc-head{grid-template-columns:34px 1fr 40px;gap:10px}
   .svc-num{font-size:24px}
-  .svc-toggle{width:40px;height:40px}
   .form{padding:20px}
   .value{grid-template-columns:1fr;gap:12px;padding:20px}
   .deliv li,.chip{font-size:13px}
@@ -417,7 +402,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
 @media (horizontal-viewport-segments:2){
   :root{--seg0:env(viewport-segment-width 0 0);--seg1:env(viewport-segment-width 1 0);--hinge:calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0))}
   .container{max-width:none}
-  .hero-grid,.about-grid,.contact-grid,.purpose-grid{grid-template-columns:calc(var(--seg0) - 2*var(--gutter)) calc(var(--seg1) - 2*var(--gutter));column-gap:calc(var(--hinge) + 2*var(--gutter))}
+  .hero-grid,.about-grid,.contact-grid{grid-template-columns:calc(var(--seg0) - 2*var(--gutter)) calc(var(--seg1) - 2*var(--gutter));column-gap:calc(var(--hinge) + 2*var(--gutter))}
   .hero-art{position:relative;opacity:1;inset:auto;z-index:0}
 }
 @media (vertical-viewport-segments:2){
@@ -456,7 +441,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
 
 /* Staggered chips (sectors + deliverables) */
 .js .mk .chip,.js .deliv li{opacity:0;transform:translate3d(0,8px,0);transition:opacity .5s var(--ease),transform .5s var(--ease),background .2s;transition-delay:calc(.25s + var(--i,0) * 45ms)}
-.js .mk.in .chip,.js .svc.in[data-open="true"] .deliv li{opacity:1;transform:none}
+.js .mk.in .chip,.js .svc.in .deliv li,.js .svc-detail .deliv li{opacity:1;transform:none}
 
 /* Hero parallax (driven by --hp, 0→1 while the hero scrolls away) */
 .hero-copy{transform:translate3d(0,calc(var(--hp,0) * 70px),0);opacity:calc(1 - var(--hp,0) * .8);will-change:transform,opacity}
@@ -484,7 +469,6 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
   .reveal,.split .w > span,.chip,.deliv li,.mw{opacity:1!important;transform:none!important}
   .hero,.page-hero,.approach,.purpose,.contact,.footer{background:var(--white)!important;color:var(--ink)!important}
   .on-dark h1,.on-dark h2,.on-dark h3,.on-dark p{color:var(--ink)!important}
-  .svc-body{grid-template-rows:1fr!important}
 }
 
 
@@ -576,7 +560,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
     <dl class="container">
       <div class="hero-fact reveal"><dt>Geographic reach</dt><dd>Uganda and East Africa, with relevant team experience across the wider region.</dd></div>
       <div class="hero-fact reveal" data-d="1"><dt>Sector exposure</dt><dd>Agribusiness, Manufacturing, Technology-enabled services, Financial inclusion, Climate-related enterprises.</dd></div>
-      <div class="hero-fact reveal" data-d="2"><dt>Mandate approach</dt><dd>Transaction and advisory assignments designed around the client's requirements; no single standard ticket size.</dd></div>
+      <div class="hero-fact reveal" data-d="2"><dt>Mandate</dt><dd>Transaction and advisory assignments designed around the client's requirements; no single standard ticket size.</dd></div>
     </dl>
   </div>
 </section>
@@ -598,18 +582,36 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
       <div class="aud-panel" role="tabpanel" id="p-ent" aria-labelledby="t-ent">
         <p class="kicker">Who we support</p>
         <h3 class="h3">Growth-stage SMEs and established businesses preparing for investment, expansion or strategic financing.</h3>
-        <p>Growth-stage SMEs and established businesses preparing for investment, expansion or strategic financing.</p>
-        <div class="aud-match"><span class="num">01</span><div><b>Corporate Finance &amp; Enterprise Advisory</b><span>Investment readiness reviews, Financial models and forecasts, Business valuations, Investment memoranda and pitch materials.</span></div></div>
+        <div class="aud-match"><span class="num">03</span><div><b>Corporate Finance &amp; Enterprise Advisory</b><span>Investment readiness reviews, Financial models and forecasts, Business valuations, Investment memoranda and pitch materials.</span></div></div>
       </div><div class="aud-panel" role="tabpanel" id="p-inv" aria-labelledby="t-inv" hidden>
         <p class="kicker">Who we support</p>
         <h3 class="h3">Private investors, funds and investment teams requiring disciplined sourcing, screening and transaction support.</h3>
-        <p>Private investors, funds and investment teams requiring disciplined sourcing, screening and transaction support.</p>
-        <div class="aud-match"><span class="num">02</span><div><b>Investment &amp; Transaction Advisory</b><span>Opportunity screening, Investment appraisal, Due diligence coordination, Valuation and return analysis.</span></div></div>
+        <div class="aud-match"><span class="num">01</span><div><b>Investment &amp; Transaction Advisory</b><span>Opportunity screening, Investment appraisal, Due diligence coordination, Valuation and return analysis.</span></div></div>
       </div><div class="aud-panel" role="tabpanel" id="p-ins" aria-labelledby="t-ins" hidden>
         <p class="kicker">Who we support</p>
         <h3 class="h3">Development programmes, public-interest organisations and partners supporting enterprise growth and access to finance.</h3>
-        <p>Development programmes, public-interest organisations and partners supporting enterprise growth and access to finance.</p>
-        <div class="aud-match"><span class="num">03</span><div><b>Development Finance &amp; Programme Advisory</b><span>Enterprise sourcing and selection, Readiness diagnostics, SME financial literacy, Technical-assistance design.</span></div></div>
+        <div class="aud-match"><span class="num">02</span><div><b>Development Finance &amp; Programme Advisory</b><span>Enterprise sourcing and selection, Readiness diagnostics, SME financial literacy, Technical-assistance design.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section purpose on-dark" id="purpose">
+  <div class="container">
+    <div class="section-head ">
+      <span class="eyebrow reveal">Purpose &amp; principles</span>
+      
+      
+    </div>
+    <div class="purpose-grid">
+      <div class="mv">
+        <div class="mv-item reveal" data-reveal="left"><p class="label">Mission</p><p>Facilitate sustainable business growth by improving investment readiness, capital access and transaction execution.</p></div>
+        <div class="mv-item reveal" data-reveal="left" data-d="1"><p class="label">Vision</p><p>Be a trusted regional advisory partner recognised for judgement, integrity and practical results.</p></div>
+      </div>
+      <div class="values-block">
+        <p class="values-heading reveal" data-reveal="left" data-d="2">Values</p>
+        <div class="values">
+          <div class="value reveal" data-reveal="right" data-d="0"><span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg></span><div><h3>Excellence</h3><p>Apply rigorous financial and commercial analysis to every assignment.</p></div></div><div class="value reveal" data-reveal="right" data-d="1"><span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span><div><h3>Integrity</h3><p>Protect client confidentiality, communicate transparently and manage conflicts responsibly.</p></div></div><div class="value reveal" data-reveal="right" data-d="2"><span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span><div><h3>Client focus</h3><p>Tailor advice to the decisions clients need to make and the results they seek.</p></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -622,36 +624,33 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
       <p class="lead reveal" data-d="2">Three complementary service pillars support enterprises from investment preparation to execution and help investors move from opportunities to informed decisions.</p>
     </div>
     <div class="svc-list">
-      <article class="svc reveal" data-open="true">
-        <button class="svc-head" aria-expanded="true" aria-controls="svc1">
-          <span class="svc-num">01</span><span class="svc-title">Corporate Finance &amp; Enterprise Advisory</span>
-          <span class="svc-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-        </button>
-        <div class="svc-body" id="svc1"><div><div class="svc-content">
-          <p>We help growth-stage businesses translate strategy and operating performance into credible, investable financing propositions. The scope may cover financing plans, business analysis and preparation for lender or investor engagement.</p>
-          <div class="deliv"><h4>Typical deliverables</h4><ul><li>Investment readiness reviews</li><li>Financial models and forecasts</li><li>Business valuations</li><li>Investment memoranda and pitch materials</li><li>Capital requirements and financing options</li><li>Investor mapping</li></ul></div>
-        </div></div></div>
-        <p style="padding:0 0 28px"><a class="link-arrow" href="/services/corporate-finance.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-      </article><article class="svc reveal" data-open="false">
-        <button class="svc-head" aria-expanded="false" aria-controls="svc2">
-          <span class="svc-num">02</span><span class="svc-title">Investment &amp; Transaction Advisory</span>
-          <span class="svc-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-        </button>
-        <div class="svc-body" id="svc2"><div><div class="svc-content">
+      <article class="svc reveal">
+        <div class="svc-head">
+          <span class="svc-num">01</span><span class="svc-title">Investment &amp; Transaction Advisory</span>
+        </div>
+        <div class="svc-content">
           <p>We support investors and companies in identifying, evaluating, structuring and advancing transactions, drawing on financial, commercial and execution perspectives. Responsibilities are agreed for each mandate; introductions are distinguished from advisory and execution services.</p>
           <div class="deliv"><h4>Typical deliverables</h4><ul><li>Opportunity screening</li><li>Investment appraisal</li><li>Due diligence coordination</li><li>Valuation and return analysis</li><li>Transaction structuring support</li><li>Investment committee materials</li><li>Negotiation and financial-close support</li><li>Portfolio performance reporting</li></ul></div>
-        </div></div></div>
-        <p style="padding:0 0 28px"><a class="link-arrow" href="/services/transaction-advisory.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-      </article><article class="svc reveal" data-open="false">
-        <button class="svc-head" aria-expanded="false" aria-controls="svc3">
-          <span class="svc-num">03</span><span class="svc-title">Development Finance &amp; Programme Advisory</span>
-          <span class="svc-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-        </button>
-        <div class="svc-body" id="svc3"><div><div class="svc-content">
+        </div>
+        <p class="svc-learn"><a class="link-arrow" href="/services/transaction-advisory.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+      </article><article class="svc reveal">
+        <div class="svc-head">
+          <span class="svc-num">02</span><span class="svc-title">Development Finance &amp; Programme Advisory</span>
+        </div>
+        <div class="svc-content">
           <p>We assist mission-aligned programmes seeking to improve enterprise competitiveness, access to finance and market participation. Support can be provided directly or as part of a consortium, subject to a defined engagement scope.</p>
           <div class="deliv"><h4>Typical deliverables</h4><ul><li>Enterprise sourcing and selection</li><li>Readiness diagnostics</li><li>SME financial literacy</li><li>Technical-assistance design</li><li>Investment facilitation</li><li>Programme reporting and outcomes tracking</li></ul></div>
-        </div></div></div>
-        <p style="padding:0 0 28px"><a class="link-arrow" href="/services/development-finance.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+        </div>
+        <p class="svc-learn"><a class="link-arrow" href="/services/development-finance.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+      </article><article class="svc reveal">
+        <div class="svc-head">
+          <span class="svc-num">03</span><span class="svc-title">Corporate Finance &amp; Enterprise Advisory</span>
+        </div>
+        <div class="svc-content">
+          <p>We help growth-stage businesses translate strategy and operating performance into credible, investable financing propositions. The scope may cover financing plans, business analysis and preparation for lender or investor engagement.</p>
+          <div class="deliv"><h4>Typical deliverables</h4><ul><li>Investment readiness reviews</li><li>Financial models and forecasts</li><li>Business valuations</li><li>Investment memoranda and pitch materials</li><li>Capital requirements and financing options</li><li>Investor mapping</li></ul></div>
+        </div>
+        <p class="svc-learn"><a class="link-arrow" href="/services/corporate-finance.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
       </article>
     </div>
   </div>
@@ -665,12 +664,8 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
     </div>
     <ol class="steps" id="steps">
       <li class="progress" aria-hidden="true"></li>
-      <li class="step"><span class="step-dot">1</span><div><h3>Define</h3><p>Agree objectives, scope, deliverables, timing and responsibilities.</p></div></li><li class="step"><span class="step-dot">2</span><div><h3>Evaluate</h3><p>Review business fundamentals, risks, commercial assumptions and funding needs.</p></div></li><li class="step"><span class="step-dot">3</span><div><h3>Prepare</h3><p>Develop models, investment materials, transaction options and diligence outputs.</p></div></li><li class="step"><span class="step-dot">4</span><div><h3>Support</h3><p>Assist decisions, stakeholder coordination, execution and post-investment reporting.</p></div></li>
+      <li class="step"><span class="step-dot">1</span><div><h3>Define</h3><p>Agree objectives, scope, deliverables, timing and responsibilities.</p></div></li><li class="step"><span class="step-dot">2</span><div><h3>Evaluate</h3><p>Review business fundamentals, risks and funding needs.</p></div></li><li class="step"><span class="step-dot">3</span><div><h3>Prepare</h3><p>Develop models, investment materials, transaction options and diligence outputs.</p></div></li><li class="step"><span class="step-dot">4</span><div><h3>Support</h3><p>Assist decisions, stakeholder coordination, execution and post-investment reporting.</p></div></li>
     </ol>
-    <div class="principle reveal">
-      <span class="tag">Operating principle</span>
-      <p>We provide advisory and analytical services within the applicable regulatory and professional framework, engaging appropriately qualified specialists where a mandate requires them.</p>
-    </div>
   </div>
 </section>
 <section class="section" id="markets">
@@ -693,7 +688,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
       </div>
       <div class="mk reveal" data-reveal="scale" data-d="2">
         <span class="mk-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 3H8l1-3zM6 7h12v13H6z"/><path d="M9 12h6M9 16h4"/></svg></span>
-        <h3>Mandate approach</h3>
+        <h3>Mandate</h3>
         <p>Transaction and advisory assignments designed around the client's requirements; no single standard ticket size.</p>
       </div>
     </div>
@@ -721,24 +716,6 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
     <p class="disclaimer reveal" style="margin:0 0 28px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>The areas below describe relevant team experience and service capabilities; they are not represented as transactions completed or contracted by BlueHarbor itself.</p>
     <div class="exp-table">
       <div class="exp-row reveal"><div><h3>Private investment &amp; corporate finance</h3><span class="exp-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>East and Southern Africa</span></div><p>Investment screening, financial modelling, valuation, due diligence, investment committee preparation, structuring support and monitoring of portfolio-company performance.</p></div><div class="exp-row reveal"><div><h3>SME growth &amp; capital readiness</h3><span class="exp-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Uganda / East Africa</span></div><p>Business and financial assessments, preparation of investor materials, forecasting, business continuity planning and support for enterprises approaching capital providers.</p></div><div class="exp-row reveal"><div><h3>Development finance &amp; financial inclusion</h3><span class="exp-region"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Regional programme exposure</span></div><p>Enterprise selection, financial literacy, due diligence, impact-oriented appraisal, stakeholder engagement and programme advisory support.</p></div>
-    </div>
-  </div>
-</section>
-<section class="section purpose on-dark" id="purpose">
-  <div class="container">
-    <div class="section-head ">
-      <span class="eyebrow reveal">Purpose &amp; principles</span>
-      
-      
-    </div>
-    <div class="purpose-grid">
-      <div class="mv">
-        <div class="mv-item reveal" data-reveal="left"><p class="label">Mission</p><p>Facilitate sustainable business growth by improving investment readiness, capital access and transaction execution.</p></div>
-        <div class="mv-item reveal" data-reveal="left" data-d="1"><p class="label">Vision</p><p>Be a trusted regional advisory partner recognised for judgement, integrity and practical results.</p></div>
-      </div>
-      <div class="values">
-        <div class="value reveal" data-reveal="right" data-d="0"><span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg></span><div><h3>Excellence</h3><p>Apply rigorous financial and commercial analysis to every assignment.</p></div></div><div class="value reveal" data-reveal="right" data-d="1"><span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span><div><h3>Integrity</h3><p>Protect client confidentiality, communicate transparently and manage conflicts responsibly.</p></div></div><div class="value reveal" data-reveal="right" data-d="2"><span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span><div><h3>Client focus</h3><p>Tailor advice to the decisions clients need to make and the results they seek.</p></div></div>
-      </div>
     </div>
   </div>
 </section>
@@ -779,7 +756,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
         </div>
       </fieldset>
       <div class="field full"><label for="f-svc">Area of interest</label>
-        <select id="f-svc" name="service"><option>Corporate Finance &amp; Enterprise Advisory</option><option>Investment &amp; Transaction Advisory</option><option>Development Finance &amp; Programme Advisory</option><option>Not sure yet</option></select></div>
+        <select id="f-svc" name="service"><option>Investment &amp; Transaction Advisory</option><option>Development Finance &amp; Programme Advisory</option><option>Corporate Finance &amp; Enterprise Advisory</option><option>Not sure yet</option></select></div>
       <div class="field full"><label for="f-msg">Briefly describe your mandate</label><textarea id="f-msg" name="message" required placeholder="Objectives, sector, stage of growth, financing needs, timing&hellip;"></textarea><span class="err">Please add a short description.</span></div>
       <div class="form-foot">
         <small>Preview only &mdash; on the live site this delivers to the firm's inbox (see README).</small>
@@ -919,12 +896,6 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
       });
     });
   }
-
-  /* --- Services accordion --- */
-  $$('.svc-head').forEach(b => b.addEventListener('click', () => {
-    const svc = b.closest('.svc'); const open = svc.dataset.open !== 'true';
-    svc.dataset.open = open; b.setAttribute('aria-expanded', open);
-  }));
 
   /* --- Mission / vision words --- */
   const mvWords = [];
