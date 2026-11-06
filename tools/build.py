@@ -304,6 +304,8 @@ def services_accordion(id_attr="services", show_heading=True):
     for i, svc in enumerate(s):
         deliv = "".join(f"<li>{esc(d)}</li>" for d in svc["deliverables"])
         items.append(f"""<article class="svc reveal">
+        <div class="svc-img"><img src="/assets/services/{svc['slug']}.jpg" alt="" loading="lazy" width="900" height="600"></div>
+        <div class="svc-body">
         <div class="svc-head">
           <span class="svc-num">{svc['number']}</span><span class="svc-title">{esc(svc['title'])}</span>
         </div>
@@ -312,6 +314,7 @@ def services_accordion(id_attr="services", show_heading=True):
           <div class="deliv"><h4>Typical deliverables</h4><ul>{deliv}</ul></div>
         </div>
         <p class="svc-learn"><a class="link-arrow" href="/services/{svc['slug']}.html">Learn more about this service {ICON['arrow-right']}</a></p>
+        </div>
       </article>""")
     head_html = section_head('Our advisory services', 'Three pillars, <span class="serif">from preparation to execution.</span>', esc(C['servicesIntro'])) if show_heading else ""
     return f"""<section class="section services" id="{id_attr}">

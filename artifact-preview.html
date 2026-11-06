@@ -178,7 +178,10 @@ p{margin:0}
 
 /* ================= SERVICES ================= */
 .svc-list{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,28px);align-items:stretch}
-.svc{border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--white);box-shadow:var(--shadow-sm);padding:clamp(26px,2.8vw,34px);display:flex;flex-direction:column;gap:20px}
+.svc{border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--white);box-shadow:var(--shadow-sm);overflow:hidden;display:flex;flex-direction:column}
+.svc-img{aspect-ratio:3/2;overflow:hidden;background:var(--mist)}
+.svc-img img{width:100%;height:100%;object-fit:cover;display:block}
+.svc-body{padding:clamp(22px,2.4vw,28px);display:flex;flex-direction:column;gap:20px;flex:1}
 .svc-head{display:flex;align-items:baseline;gap:14px}
 .svc-num{font:400 clamp(24px,2vw,30px)/1 var(--font-serif);color:var(--teal)}
 .svc-title{font-size:clamp(18px,1.5vw,21px);font-weight:600;letter-spacing:-.02em;color:var(--navy);line-height:1.2}
@@ -632,6 +635,8 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
     </div>
     <div class="svc-list">
       <article class="svc reveal">
+        <div class="svc-img"><img src="/assets/services/transaction-advisory.jpg" alt="" loading="lazy" width="900" height="600"></div>
+        <div class="svc-body">
         <div class="svc-head">
           <span class="svc-num">01</span><span class="svc-title">Investment &amp; Transaction Advisory</span>
         </div>
@@ -640,7 +645,10 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
           <div class="deliv"><h4>Typical deliverables</h4><ul><li>Opportunity screening</li><li>Investment appraisal</li><li>Due diligence coordination</li><li>Valuation and return analysis</li><li>Transaction structuring support</li><li>Investment committee materials</li><li>Negotiation and financial-close support</li><li>Portfolio performance reporting</li></ul></div>
         </div>
         <p class="svc-learn"><a class="link-arrow" href="/services/transaction-advisory.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+        </div>
       </article><article class="svc reveal">
+        <div class="svc-img"><img src="/assets/services/development-finance.jpg" alt="" loading="lazy" width="900" height="600"></div>
+        <div class="svc-body">
         <div class="svc-head">
           <span class="svc-num">02</span><span class="svc-title">Development Finance &amp; Programme Advisory</span>
         </div>
@@ -649,7 +657,10 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
           <div class="deliv"><h4>Typical deliverables</h4><ul><li>Enterprise sourcing and selection</li><li>Readiness diagnostics</li><li>SME financial literacy</li><li>Technical-assistance design</li><li>Investment facilitation</li><li>Programme reporting and outcomes tracking</li></ul></div>
         </div>
         <p class="svc-learn"><a class="link-arrow" href="/services/development-finance.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+        </div>
       </article><article class="svc reveal">
+        <div class="svc-img"><img src="/assets/services/corporate-finance.jpg" alt="" loading="lazy" width="900" height="600"></div>
+        <div class="svc-body">
         <div class="svc-head">
           <span class="svc-num">03</span><span class="svc-title">Corporate Finance &amp; Enterprise Advisory</span>
         </div>
@@ -658,6 +669,7 @@ body:has(dialog[open]),body.menu-open{overflow:hidden}
           <div class="deliv"><h4>Typical deliverables</h4><ul><li>Investment readiness reviews</li><li>Financial models and forecasts</li><li>Business valuations</li><li>Investment memoranda and pitch materials</li><li>Capital requirements and financing options</li><li>Investor mapping</li></ul></div>
         </div>
         <p class="svc-learn"><a class="link-arrow" href="/services/corporate-finance.html">Learn more about this service <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+        </div>
       </article>
     </div>
   </div>
