@@ -356,7 +356,7 @@ def markets_section(id_attr="markets"):
     chips = "".join(f'<span class="chip">{esc(x)}</span>' for x in sectors["items"])
     return f"""<section class="section" id="{id_attr}">
   <div class="container">
-    {section_head('Market orientation', 'Rooted in Uganda. <span class="serif">Regional in perspective.</span>')}
+    {section_head('Market orientation', 'Rooted in East Africa. <span class="serif">Sub-Saharan in perspective.</span>')}
     <div class="markets-grid">
       <div class="mk reveal" data-reveal="scale">
         <span class="mk-icon">{ICON['globe']}</span>
