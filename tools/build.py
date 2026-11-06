@@ -267,7 +267,6 @@ def about_intro_media(id_attr="about-intro"):
 def about_who_we_support(id_attr="about", show_heading=True):
     a = C["about"]
     auds = C["audiences"]
-    svc_by_pillar = {s["slug"]: s for s in C["services"]}
     tabs = []
     panels = []
     labels = {"enterprises": "t-ent", "investors": "t-inv", "institutions": "t-ins"}
@@ -277,12 +276,10 @@ def about_who_we_support(id_attr="about", show_heading=True):
         selected = "true" if i == 0 else "false"
         tabindex = "" if i == 0 else ' tabindex="-1"'
         tabs.append(f'<button class="aud-tab" role="tab" id="{tid}" aria-controls="{pid}" aria-selected="{selected}"{tabindex}>{aud["label"]}</button>')
-        pillar = svc_by_pillar[aud["servicePillar"]]
         hidden = "" if i == 0 else " hidden"
         panels.append(f"""<div class="aud-panel" role="tabpanel" id="{pid}" aria-labelledby="{tid}"{hidden}>
         <p class="kicker">Who we support</p>
         <h3 class="h3">{esc(aud['text'].split('.')[0])}.</h3>
-        <div class="aud-match"><span class="num">{pillar['number']}</span><div><b>{esc(pillar['title'])}</b><span>{esc(', '.join(pillar['deliverables'][:4]))}.</span></div></div>
       </div>""")
     head_html = section_head('About BlueHarbor', 'Practical, locally grounded advice <span class="serif">for capital decisions.</span>') if show_heading else ""
     lead_html = f'<p class="lead reveal">{about_summary_underlined()}</p>' if show_heading else ""
