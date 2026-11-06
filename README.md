@@ -206,15 +206,15 @@ finished**:
 - **Domain.** Metadata, the sitemap and JSON-LD assume
   `https://blueharboradvisory.com`. Update `site.domain` in
   `content/site-content.json` if the live domain differs, then rebuild.
-- **About page photo & service card photos.** `assets/about/about-placeholder.svg`
+- **About page photo & service card photos.** `assets/about/about-kampala-skyline.jpg`
   and the three images in `assets/services/` (`transaction-advisory.jpg`,
   `development-finance.jpg`, `corporate-finance.jpg`) are **temporary
   stand-ins**, not the client's own photography. See the licensing note
-  in §10 — two of the three service photos are CC-licensed stock photos
-  that carry an attribution requirement for as long as they're live; swap
-  them for the firm's own images (or properly licensed stock) before
-  launch, keeping the same filenames and a roughly 3:2 crop, then re-run
-  the build.
+  in §10 — all four are CC-licensed stock photos that carry an attribution
+  requirement for as long as they're live; swap them for the firm's own
+  images (or properly licensed stock) before launch, keeping the same
+  filenames and roughly the same crop (4:3 for the About photo, 3:2 for
+  the service cards), then re-run the build.
 
 ## 7. Deployment
 
@@ -275,14 +275,13 @@ pack. Fonts: [Figtree](https://fonts.google.com/specimen/Figtree) and
 [Newsreader](https://fonts.google.com/specimen/Newsreader) via Google
 Fonts.
 
-**Temporary service-card photos** (`assets/services/`, cropped from the
+**Temporary photos** (`assets/about/`, `assets/services/`, cropped from the
 originals — see §6, replace before launch):
+- `about-kampala-skyline.jpg` — [Kampala skyline](https://commons.wikimedia.org/wiki/File:Kampala_skyline.jpg),
+  © Todd Huffman, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
 - `transaction-advisory.jpg` — [Moscow City](https://commons.wikimedia.org/wiki/File:Moscow_City_(216622639).jpeg),
   © Alexander Markov, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
 - `development-finance.jpg` — [Aerial view of shipping containers at Tacoma's container port](https://commons.wikimedia.org/wiki/File:Aerial_view_of_shipping_containers,_and_big_container_cranes_at_Tacoma%27s_container_port_-a.jpg),
   U.S. Army photo by Brian Harris, public domain.
 - `corporate-finance.jpg` — [Hello Boston](https://commons.wikimedia.org/wiki/File:Hello_Boston_-_Flickr_-_dalecruse.jpg),
   © Dale Cruse, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
-
-The About page illustration (`assets/about/about-placeholder.svg`) is an
-original generated graphic, not a licensed photo.

@@ -253,7 +253,7 @@ def about_intro_media(id_attr="about-intro"):
       <p class="lead reveal">{summary}</p>
     </div>
     <div class="about-media-art reveal" data-reveal="right">
-      <img src="/assets/about/about-placeholder.svg" alt="Illustration of Kampala's skyline above Lake Victoria" loading="lazy" width="600" height="600">
+      <img src="/assets/about/about-kampala-skyline.jpg" alt="The Kampala skyline at dusk" loading="lazy" width="1280" height="826">
     </div>
   </div>
 </section>"""
