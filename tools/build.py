@@ -240,20 +240,25 @@ def section_head(eyebrow, h2_html, lead=None, extra_class=""):
     </div>"""
 
 
-def about_intro_media(id_attr="about-intro"):
-    a = C["about"]
-    summary = esc(a["summary"]).replace(
+def about_summary_underlined():
+    return esc(C["about"]["summary"]).replace(
         "growth-oriented businesses", "<u>growth-oriented businesses</u>"
     ).replace(
         "informed transaction decisions", "<u>informed transaction decisions</u>"
     )
+
+
+ABOUT_PHOTO = '<img src="/assets/about/about-kampala-skyline.jpg" alt="The Kampala skyline at dusk" loading="lazy" width="1280" height="826">'
+
+
+def about_intro_media(id_attr="about-intro"):
     return f"""<section class="section" id="{id_attr}" style="padding-top:0">
   <div class="container about-media-grid">
     <div class="about-media-copy">
-      <p class="lead reveal">{summary}</p>
+      <p class="lead reveal">{about_summary_underlined()}</p>
     </div>
     <div class="about-media-art reveal" data-reveal="right">
-      <img src="/assets/about/about-kampala-skyline.jpg" alt="The Kampala skyline at dusk" loading="lazy" width="1280" height="826">
+      {ABOUT_PHOTO}
     </div>
   </div>
 </section>"""
@@ -280,7 +285,8 @@ def about_who_we_support(id_attr="about", show_heading=True):
         <div class="aud-match"><span class="num">{pillar['number']}</span><div><b>{esc(pillar['title'])}</b><span>{esc(', '.join(pillar['deliverables'][:4]))}.</span></div></div>
       </div>""")
     head_html = section_head('About BlueHarbor', 'Practical, locally grounded advice <span class="serif">for capital decisions.</span>') if show_heading else ""
-    lead_html = f'<p class="lead reveal">{esc(a["summary"])}</p>' if show_heading else ""
+    lead_html = f'<p class="lead reveal">{about_summary_underlined()}</p>' if show_heading else ""
+    photo_html = f'<div class="about-media-art reveal" data-reveal="right">{ABOUT_PHOTO}</div>' if show_heading else ""
     return f"""<section class="section" id="{id_attr}">
   <div class="container about-grid">
     <div class="about-copy">
@@ -288,11 +294,14 @@ def about_who_we_support(id_attr="about", show_heading=True):
       {lead_html}
       <p class="muted reveal">{esc(a['detail'])}</p>
     </div>
-    <div class="audience reveal" data-reveal="right" data-d="1">
-      <div class="aud-tabs" role="tablist" aria-label="Who we support">
-        {''.join(tabs)}
+    <div class="about-side">
+      {photo_html}
+      <div class="audience reveal" data-reveal="right" data-d="1">
+        <div class="aud-tabs" role="tablist" aria-label="Who we support">
+          {''.join(tabs)}
+        </div>
+        {''.join(panels)}
       </div>
-      {''.join(panels)}
     </div>
   </div>
 </section>"""

@@ -149,6 +149,8 @@ p{margin:0}
 .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,7vw,96px);align-items:start}
 .about-copy p + p{margin-top:18px}
 .about-copy .lead{color:var(--ink);font-size:clamp(20px,2vw,24px);line-height:1.45;letter-spacing:-.01em}
+.about-copy u{text-decoration:none;color:var(--navy);font-weight:600;box-shadow:inset 0 -2px 0 var(--teal)}
+.about-side{display:grid;gap:24px;align-content:start}
 .audience{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
 .aud-tabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line);background:var(--paper)}
 .aud-tab{background:none;border:0;padding:18px 12px;font-weight:600;font-size:14.5px;color:var(--slate);position:relative;transition:color .2s}
