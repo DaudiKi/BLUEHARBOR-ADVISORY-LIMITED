@@ -281,7 +281,7 @@ originals — see §6, replace before launch):
   © Todd Huffman, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
 - `transaction-advisory.jpg` — [Moscow City](https://commons.wikimedia.org/wiki/File:Moscow_City_(216622639).jpeg),
   © Alexander Markov, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
-- `development-finance.jpg` — [Aerial view of shipping containers at Tacoma's container port](https://commons.wikimedia.org/wiki/File:Aerial_view_of_shipping_containers,_and_big_container_cranes_at_Tacoma%27s_container_port_-a.jpg),
-  U.S. Army photo by Brian Harris, public domain.
+- `development-finance.jpg` — container port photo supplied by the client
+  (source/licence to be confirmed by the client).
 - `corporate-finance.jpg` — [Hello Boston](https://commons.wikimedia.org/wiki/File:Hello_Boston_-_Flickr_-_dalecruse.jpg),
   © Dale Cruse, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
