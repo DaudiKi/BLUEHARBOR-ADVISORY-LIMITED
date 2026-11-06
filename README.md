@@ -277,8 +277,8 @@ Fonts.
 
 **Temporary photos** (`assets/about/`, `assets/services/`, cropped from the
 originals — see §6, replace before launch):
-- `about-kampala-skyline.jpg` — [Kampala skyline](https://commons.wikimedia.org/wiki/File:Kampala_skyline.jpg),
-  © Todd Huffman, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
+- `about-kampala-skyline.jpg` — Kampala skyline photo supplied by the client
+  (source/licence to be confirmed by the client).
 - `transaction-advisory.jpg` — [Moscow City](https://commons.wikimedia.org/wiki/File:Moscow_City_(216622639).jpeg),
   © Alexander Markov, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
 - `development-finance.jpg` — container port photo supplied by the client
