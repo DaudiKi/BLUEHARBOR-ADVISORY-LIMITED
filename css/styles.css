@@ -166,6 +166,13 @@ p{margin:0}
 .aud-match span{font-size:14.5px;color:var(--slate)}
 @media (max-width:900px){.about-grid{grid-template-columns:1fr}}
 
+.about-media-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,64px);align-items:center}
+.about-media-copy .lead{color:var(--ink);font-size:clamp(19px,1.9vw,23px);line-height:1.55;letter-spacing:-.01em}
+.about-media-copy u{text-decoration:none;color:var(--navy);font-weight:600;box-shadow:inset 0 -2px 0 var(--teal)}
+.about-media-art{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
+.about-media-art img{display:block;width:100%;height:auto}
+@media (max-width:900px){.about-media-grid{grid-template-columns:1fr}.about-media-art{order:-1;max-width:420px;margin:0 auto}}
+
 /* ================= SERVICES ================= */
 .svc-list{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,28px);align-items:stretch}
 .svc{border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--white);box-shadow:var(--shadow-sm);padding:clamp(26px,2.8vw,34px);display:flex;flex-direction:column;gap:20px}

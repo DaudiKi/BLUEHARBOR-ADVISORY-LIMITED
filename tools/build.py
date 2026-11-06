@@ -240,6 +240,25 @@ def section_head(eyebrow, h2_html, lead=None, extra_class=""):
     </div>"""
 
 
+def about_intro_media(id_attr="about-intro"):
+    a = C["about"]
+    summary = esc(a["summary"]).replace(
+        "growth-oriented businesses", "<u>growth-oriented businesses</u>"
+    ).replace(
+        "informed transaction decisions", "<u>informed transaction decisions</u>"
+    )
+    return f"""<section class="section" id="{id_attr}" style="padding-top:0">
+  <div class="container about-media-grid">
+    <div class="about-media-copy">
+      <p class="lead reveal">{summary}</p>
+    </div>
+    <div class="about-media-art reveal" data-reveal="right">
+      <img src="/assets/about/about-placeholder.svg" alt="Illustration of Kampala's skyline above Lake Victoria" loading="lazy" width="600" height="600">
+    </div>
+  </div>
+</section>"""
+
+
 def about_who_we_support(id_attr="about", show_heading=True):
     a = C["about"]
     auds = C["audiences"]
@@ -501,12 +520,13 @@ def crumbs(*pairs):
 
 
 def page_hero(eyebrow, h1, lead, crumbs_html=""):
+    lead_html = f'<p class="lead reveal" data-d="2">{lead}</p>' if lead else ""
     return f"""<section class="page-hero on-dark">
   <div class="container">
     {crumbs_html}
     <span class="eyebrow reveal">{esc(eyebrow)}</span>
     <h1 class="h2 reveal" data-d="1">{h1}</h1>
-    <p class="lead reveal" data-d="2">{lead}</p>
+    {lead_html}
   </div>
 </section>"""
 
@@ -568,7 +588,8 @@ def build_home():
 def build_about():
     body = "\n".join([
         page_hero("About BlueHarbor", 'Practical, locally grounded <span class="serif">advice for capital decisions.</span>',
-                  esc(C["about"]["summary"]), crumbs(("About", ""))),
+                  "", crumbs(("About", ""))),
+        about_intro_media(),
         about_who_we_support(id_attr="who-we-support", show_heading=False),
         markets_section(),
         purpose_section(),
