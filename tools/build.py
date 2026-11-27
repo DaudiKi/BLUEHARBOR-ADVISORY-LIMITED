@@ -378,9 +378,8 @@ def markets_section(id_attr="markets"):
 
 def why_section(id_attr="why"):
     items = C["why"]
-    romans = ["i.", "ii.", "iii."]
     blocks = "".join(
-        f'<div class="why-item reveal" data-d="{i}"><span class="idx">{romans[i]}</span><h3 class="h3">{esc(it["title"])}</h3><p>{esc(it["text"])}</p></div>'
+        f'<div class="why-item reveal" data-d="{i}"><h3 class="h3">{esc(it["title"])}</h3><p>{esc(it["text"])}</p></div>'
         for i, it in enumerate(items)
     )
     return f"""<section class="section why" id="{id_attr}">

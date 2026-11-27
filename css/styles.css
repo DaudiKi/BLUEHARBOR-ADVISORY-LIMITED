@@ -238,8 +238,7 @@ p{margin:0}
 
 /* ================= WHY ================= */
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px)}
-.why-item{padding-top:6px}
-.why-item .idx{font:400 15px var(--font-serif);color:var(--teal);margin-bottom:16px;display:block}
+.why-item{padding-top:0}
 .why-item h3{margin-bottom:14px}
 .why-item p{color:var(--slate)}
 @media (max-width:900px){.why-grid{grid-template-columns:1fr}}
