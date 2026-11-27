@@ -279,9 +279,9 @@ Fonts.
 originals — see §6, replace before launch):
 - `about-team.jpg` — team meeting photo supplied by the client
   (source/licence to be confirmed by the client).
-- `transaction-advisory.jpg` — skyscrapers photo supplied by the client
+- `transaction-advisory.jpg` — coffee-plant photo supplied by the client
   (source/licence to be confirmed by the client).
 - `development-finance.jpg` — container port photo supplied by the client
   (source/licence to be confirmed by the client).
-- `corporate-finance.jpg` — coffee-plant photo supplied by the client
+- `corporate-finance.jpg` — skyscrapers photo supplied by the client
   (source/licence to be confirmed by the client).
