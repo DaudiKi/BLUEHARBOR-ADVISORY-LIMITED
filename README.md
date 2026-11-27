@@ -206,7 +206,7 @@ finished**:
 - **Domain.** Metadata, the sitemap and JSON-LD assume
   `https://blueharboradvisory.com`. Update `site.domain` in
   `content/site-content.json` if the live domain differs, then rebuild.
-- **About page photo & service card photos.** `assets/about/about-kampala-skyline.jpg`
+- **About page photo & service card photos.** `assets/about/about-team.jpg`
   and the three images in `assets/services/` (`transaction-advisory.jpg`,
   `development-finance.jpg`, `corporate-finance.jpg`) are **temporary
   stand-ins**, not the client's own photography. See the licensing note
@@ -277,11 +277,11 @@ Fonts.
 
 **Temporary photos** (`assets/about/`, `assets/services/`, cropped from the
 originals — see §6, replace before launch):
-- `about-kampala-skyline.jpg` — Kampala skyline photo supplied by the client
+- `about-team.jpg` — team meeting photo supplied by the client
   (source/licence to be confirmed by the client).
-- `transaction-advisory.jpg` — [Moscow City](https://commons.wikimedia.org/wiki/File:Moscow_City_(216622639).jpeg),
-  © Alexander Markov, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+- `transaction-advisory.jpg` — skyscrapers photo supplied by the client
+  (source/licence to be confirmed by the client).
 - `development-finance.jpg` — container port photo supplied by the client
   (source/licence to be confirmed by the client).
-- `corporate-finance.jpg` — [Hello Boston](https://commons.wikimedia.org/wiki/File:Hello_Boston_-_Flickr_-_dalecruse.jpg),
-  © Dale Cruse, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
+- `corporate-finance.jpg` — coffee-plant photo supplied by the client
+  (source/licence to be confirmed by the client).

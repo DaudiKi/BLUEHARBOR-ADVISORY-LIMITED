@@ -248,7 +248,7 @@ def about_summary_underlined():
     )
 
 
-ABOUT_PHOTO = '<img src="/assets/about/about-kampala-skyline.jpg" alt="Kampala skyline above the trees" loading="lazy" width="600" height="400">'
+ABOUT_PHOTO = '<img src="/assets/about/about-team.jpg" alt="A BlueHarbor advisory team meeting" loading="lazy" width="1080" height="719">'
 
 
 def about_intro_media(id_attr="about-intro"):
