@@ -461,8 +461,9 @@ def contact_section(id_attr="contact", heading_tag="h2", crumbs_html="", show_he
     </div>
 
     <form class="form reveal" data-reveal="right" id="contactForm" novalidate
-      data-access-key="YOUR_WEB3FORMS_ACCESS_KEY" data-mailto="{C['site']['contact']['email']}">
+      data-mailto="{C['site']['contact']['email']}">
       <h3>Tell us about your requirement</h3>
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" required><span class="err">Please enter your name.</span></div>
       <div class="field"><label for="f-org">Organisation</label><input id="f-org" name="organisation" autocomplete="organization"></div>
       <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required><span class="err">Please enter a valid email.</span></div>

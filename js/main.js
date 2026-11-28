@@ -134,17 +134,14 @@
   if (toTop) toTop.addEventListener('click', () => { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); $('.logo')?.focus({ preventScroll: true }); });
 
   /* --- Contact form ---
-     Submits to Web3Forms (https://web3forms.com) when an access key is
-     configured in data-access-key on the <form>. Web3Forms is free, has
-     no server to run, and delivers straight to the inbox below.
-     Until a key is set, or if the request fails (offline, blocked, etc.),
-     the form falls back to opening the visitor's email client with the
-     message pre-filled, so an enquiry is never silently lost.
-     See README.md -> "Making the contact form work" for setup. */
+     POSTs JSON to /api/contact (a Vercel function that emails the
+     enquiry to the firm). If that fails (offline, function not yet
+     configured, etc.), the form falls back to opening the visitor's
+     email client with the message pre-filled, so an enquiry is never
+     silently lost. See README.md -> "Contact form". */
   const form = $('#contactForm');
   if (form) {
     const okMsg = $('#formOk'), errMsg = $('#formError'), submitBtn = $('button[type="submit"]', form);
-    const accessKey = form.dataset.accessKey || '';
     const mailTo = form.dataset.mailto || 'info@blueharboradvisory.com';
 
     const buildMailtoHref = (data) => {
@@ -181,24 +178,15 @@
         $$('.field.invalid', form).forEach(f => f.classList.remove('invalid'));
       };
 
-      if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') {
-        // No email-delivery key configured yet — open a pre-filled email instead.
-        window.location.href = buildMailtoHref(data);
-        showSuccess();
-        return;
-      }
-
       try {
         if (submitBtn) submitBtn.disabled = true;
-        fd.append('access_key', accessKey);
-        fd.append('subject', `New mandate enquiry — ${data.type || 'General'} — ${data.service || 'Not specified'}`);
-        const res = await fetch('https://api.web3forms.com/submit', {
+        const res = await fetch('/api/contact', {
           method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: fd
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data)
         });
-        const json = await res.json();
-        if (json.success) {
+        const json = await res.json().catch(() => ({}));
+        if (res.ok && json.success) {
           showSuccess();
         } else {
           throw new Error(json.message || 'Submission failed');

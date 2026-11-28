@@ -123,52 +123,32 @@ colours, etc.) that requires the paid **Maps Embed/JavaScript API** and a
 `NEXT_PUBLIC`-style key — the keyless embed above is deliberately the
 simpler, zero-cost option for a marketing site like this one.
 
-## 5. Making the contact form actually send email
+## 5. Contact form (emails info@blueharboradvisory.com)
 
-The form (`#contactForm`, in `js/main.js`) already does full client-side
-validation, matches the approved design, and is wired to work two ways:
+The form (`#contactForm`, in `js/main.js`) validates in the browser and POSTs
+JSON to **`/api/contact`** — a Vercel serverless function in
+[`api/contact.js`](api/contact.js) that emails the enquiry to
+`info@blueharboradvisory.com` through [Resend](https://resend.com). The visitor's
+address is set as Reply-To, so replying goes straight to them. A hidden
+`website` field traps simple spam bots.
 
-### Option A — Web3Forms (recommended, free, 5 minutes, no backend)
+**One-time setup** (Vercel → project → Settings → Environment Variables, then
+redeploy):
 
-[Web3Forms](https://web3forms.com) delivers form submissions straight to an
-inbox with no server of your own.
+| Variable | Required | Value |
+|---|---|---|
+| `RESEND_API_KEY` | yes | API key from your Resend account |
+| `RESEND_FROM` | recommended | e.g. `BlueHarbor Website <enquiries@blueharboradvisory.com>` — the domain must be verified in Resend (Resend → Domains → add DNS records) |
+| `CONTACT_TO` | no | recipient override (default `info@blueharboradvisory.com`) |
 
-1. Go to <https://web3forms.com> and enter the inbox that should receive
-   enquiries (e.g. `info@blueharboradvisory.com`). You'll get a free
-   **Access Key** by email — no account required.
-2. Open `tools/build.py`, find this line inside `contact_section(...)`:
-   ```python
-   data-access-key="YOUR_WEB3FORMS_ACCESS_KEY"
-   ```
-   and replace `YOUR_WEB3FORMS_ACCESS_KEY` with the real key.
-3. Re-run `python3 tools/build.py` and redeploy.
+Until the domain is verified, leave `RESEND_FROM` unset: Resend's test sender
+(`onboarding@resend.dev`) only delivers to the email address of the Resend
+account itself, so real enquiries to `info@…` will not arrive until the domain
+is verified and `RESEND_FROM` is set.
 
-That's it — submissions will POST to Web3Forms' API and arrive by email,
-with the subject `New mandate enquiry — {type} — {service}`. Web3Forms'
-free tier includes spam filtering and a honeypot; no code changes needed.
-
-### Option B — a form backend you already use (Formspree, Basin, etc.)
-
-Swap the `fetch('https://api.web3forms.com/submit', …)` call in
-`js/main.js` (`Contact form` section) for your provider's endpoint — most
-work the same way (POST a `FormData`, get back JSON).
-
-### Option C — a serverless function (full control)
-
-If the firm wants submissions written to a database, forwarded to Slack,
-etc., replace the fetch target with your own endpoint (e.g. a Vercel/Netlify
-function, or a small Node/Express route) that sends mail via
-[Resend](https://resend.com), SendGrid, or SMTP. This is closer to what the
-original design brief specified (a Next.js Server Action + Resend) — it
-requires a bit of backend code and a domain verified for sending, which is
-why Option A is the faster path to "fully working" today.
-
-### Fallback behaviour (works right now, with zero setup)
-
-Until an access key is configured (or if the network request fails), the
-form automatically falls back to opening the visitor's email client with a
-pre-filled message addressed to `info@blueharboradvisory.com` — so no
-enquiry is ever silently lost, even before Option A/B/C is wired up.
+**Fallback (no setup needed):** if the request fails or the key is missing, the
+form opens the visitor's email client with the message pre-filled and addressed
+to `info@blueharboradvisory.com`, so no enquiry is silently lost.
 
 ## 5b. Logo
 
@@ -197,7 +177,7 @@ finished**:
 
 - **Exact office address / map pin.** See §4 — the map currently centres on
   Ntinda generally.
-- **Contact form delivery.** See §5 — pick Option A, B or C and configure it.
+- **Contact form delivery.** See §5 — add `RESEND_API_KEY` (and verify the sending domain) in Vercel.
 - **Privacy notice & terms.** `/privacy.html` and `/terms.html` contain
   clearly-marked placeholder drafts for structure only — they are **not**
   legal advice and have not been reviewed by counsel. Have Ugandan legal
